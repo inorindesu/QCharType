@@ -16,24 +16,49 @@
 // 
 
 #include <QPainter>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 #include "MainWindow.hpp"
 #include "InputMethodLoader.hpp"
 
 MainWindow::MainWindow()
 {
+  //widget 
+  QWidget* central = new QWidget();
+  QVBoxLayout* mainLayout = new QVBoxLayout();
+
+  this->_main = new PaintableWidget();
+  mainLayout->addWidget(this->_main, 1);
+  this->connect(this->_main, SIGNAL(paint(QPainter*)), this, SLOT(paintCenterWidget(QPainter*)));
+
+  QHBoxLayout* statusLayout = new QHBoxLayout();
+  
+  this->_lblInput = new QLabel(tr("Ready"));
+  this->_lblInput->setAlignment(Qt::AlignLeft);
+  statusLayout->addWidget(this->_lblInput, 1);
+  this->_lblScore = new QLabel(QString::number(0));
+  this->_lblScore->setAlignment(Qt::AlignRight);
+  statusLayout->addWidget(this->_lblScore);
+
+  mainLayout->addLayout(statusLayout);
+
+  central->setLayout(mainLayout);
+  this->setCentralWidget(central);
+  this->resize(640, 480);
+
+  // game setup
   this->_charBackground = QPixmap(32, 32);
   this->_charBackground.fill();
   QPainter p(&this->_charBackground);
   p.setRenderHint(QPainter::Antialiasing, true);
   p.setRenderHint(QPainter::TextAntialiasing, true);
   p.drawEllipse(0, 0, 32, 32);
+
+  this->_im = NULL;
 }
 
-void MainWindow::paintEvent(QPaintEvent* e)
+void MainWindow::paintCenterWidget(QPainter* p)
 {
-  QPainter p(this);
-  p.setRenderHint(QPainter::Antialiasing, true);
-  p.setRenderHint(QPainter::TextAntialiasing, true);
-  p.drawPixmap(0, 0, this->_charBackground);
+  p->drawPixmap(0, 0, this->_charBackground);
 }

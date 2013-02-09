@@ -21,8 +21,10 @@
 #include <QMainWindow>
 #include <QPaintEvent>
 #include <QPixmap>
+#include <QLabel>
 
 #include "InputMethod.hpp"
+#include "PaintableWidget.hpp"
 
 class MainWindow : public QMainWindow
 {
@@ -30,8 +32,11 @@ class MainWindow : public QMainWindow
 private:
   InputMethod* _im;
   QPixmap _charBackground;
-protected:
-  void paintEvent(QPaintEvent* e);
+  PaintableWidget* _main;
+  QLabel* _lblInput;
+  QLabel* _lblScore;
+private slots:
+  void paintCenterWidget(QPainter* p);
 public:
   MainWindow();
 };
