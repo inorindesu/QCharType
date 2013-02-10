@@ -1,0 +1,2 @@
+#englishName	tableFile	tableFileParser
+Chewing	./libchewing/phone.cin	ChewingIMLoader
