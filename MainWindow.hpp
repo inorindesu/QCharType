@@ -22,19 +22,25 @@
 #include <QPaintEvent>
 #include <QPixmap>
 #include <QLabel>
+#include <QDir>
 
 #include "InputMethod.hpp"
 #include "PaintableWidget.hpp"
+#include "GameSettings.hpp"
 
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
 private:
   InputMethod* _im;
+  GameSettings* _settings;
   QPixmap _charBackground;
   PaintableWidget* _main;
   QLabel* _lblInput;
   QLabel* _lblScore;
+  
+  QDir getDataDir();
+  QDir getUserDir();
 private slots:
   void paintCenterWidget(QPainter* p);
 public:

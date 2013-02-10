@@ -16,8 +16,12 @@
 // 
 
 #include <QPainter>
+#include <QApplication>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QFile>
+#include <QTextStream>
+#include <QtDebug>
 
 #include "MainWindow.hpp"
 #include "InputMethodLoader.hpp"
@@ -48,11 +52,31 @@ MainWindow::MainWindow()
   this->resize(640, 480);
 
   // game setup
+  this->_settings = new GameSettings();
+  QDir userDir = this->getUserDir();
+  QFileInfo userSettings(userDir, "settings.txt");
+  if (userSettings.exists())
+    {
+      QFile* f = new QFile(userSettings.absoluteFilePath());
+      if(f->open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+          QTextStream* s = new QTextStream(f);
+          this->_settings->load(*s);
+          f->close();
+        }
+      else
+        {
+          qWarning() << "Warning: cannot open user settings (in" << userSettings.absoluteFilePath() << ")";
+          qWarning() << "Default settings will be used";
+        }
+    }
+  
+  // some setup should be done according to this->_settings;
+
   this->_charBackground = QPixmap(32, 32);
-  this->_charBackground.fill();
+  this->_charBackground.fill(QColor(0, 0, 0, 0));
   QPainter p(&this->_charBackground);
   p.setRenderHint(QPainter::Antialiasing, true);
-  p.setRenderHint(QPainter::TextAntialiasing, true);
   p.drawEllipse(0, 0, 32, 32);
 
   this->_im = NULL;
@@ -61,4 +85,62 @@ MainWindow::MainWindow()
 void MainWindow::paintCenterWidget(QPainter* p)
 {
   p->drawPixmap(0, 0, this->_charBackground);
+}
+
+QDir MainWindow::getDataDir()
+{
+  QDir dataDir = QDir(QCoreApplication::applicationDirPath());
+  if(dataDir.cd("./share/") == false)
+    {
+      qWarning() << "Warning: data directory cannot be found. The application may be crashed soon.";
+    }
+  return dataDir;
+}
+
+QDir MainWindow::getUserDir()
+{
+  QDir appDir = QCoreApplication::applicationDirPath();
+  QFileInfo portableMark(appDir, "PORTABLE");
+  if (portableMark.exists())
+    {
+      qDebug() << "Portable mark found!" << endl;
+      if (appDir.exists("userData") == false)
+        {
+          if (appDir.mkdir("userData") == false)
+            {
+              qWarning() << "Warning: cannot make directory";
+            }
+        }
+      if (appDir.cd("userData") == false)
+        {
+          qWarning() << "Warning: cannot CD to portable storage!";
+        }
+      return appDir;
+    }
+  else
+    {
+      QDir userDir = QDir::home();
+#ifdef Q_WS_WIN
+      QString dir = "./QCharType";
+#else
+      QString dir = "./.config/QCharType";
+#endif
+      qDebug() << "Related to dir " << userDir.absolutePath();
+
+      if (userDir.exists(dir) == false)
+        {
+          qDebug() << "Making directory:" <<  dir << endl;
+          if (userDir.mkpath(dir) == false)
+            {
+              qWarning() << "Warning: cannot make directory!";
+            }
+        }
+
+      if (userDir.cd(dir) == false)
+        {
+          qWarning() << "Warning:" << dir  << "exists but cannot CD to the dir";
+        }
+      return userDir;
+    }
+  return QDir();
 }
