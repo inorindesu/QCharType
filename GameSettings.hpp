@@ -25,12 +25,19 @@
 class GameSettings
 {
 private:
-  int _windowWidth;
-  int _windowHeight;
+  // IM & text generator behavior
   QString _inputMethod;
+  QString _textDatabaseName;
+
+  // appearance
   QColor _backColor;
   QColor _foreColor;
   QString _fontName;
+  float _fontSize;
+  int _windowWidth;
+  int _windowHeight;
+
+  // difficulty
   double _secsToGround;
   double _shieldStrength;
   double _shieldRegen;
@@ -40,6 +47,30 @@ public:
   void save(QTextStream& s);
 
 public:
+  float fontSize()
+  {
+    return this->_fontSize;
+  }
+  
+  void setFontSize(float f)
+  {
+    if (f > 0)
+      this->_fontSize = f;
+  }
+
+  QString textDatabaseName()
+  {
+    return this->_textDatabaseName;
+  }
+
+  void setTextDatabaseName(QString s)
+  {
+    if(s.isNull() == false && s.isEmpty() == false)
+      {
+        this->_textDatabaseName = s;
+      }
+  }
+  
   double shieldRegen()
   {
     return this->_shieldRegen;

@@ -63,12 +63,14 @@ MainWindow::MainWindow()
           QTextStream* s = new QTextStream(f);
           this->_settings->load(*s);
           f->close();
+          delete s;
         }
       else
         {
           qWarning() << "Warning: cannot open user settings (in" << userSettings.absoluteFilePath() << ")";
           qWarning() << "Default settings will be used";
         }
+      delete f;
     }
   
   // some setup should be done according to this->_settings;
