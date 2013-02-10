@@ -19,6 +19,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimerEvent>
 #include <QCloseEvent>
 #include <QPixmap>
 #include <QLabel>
@@ -41,9 +42,13 @@ private:
   
   QDir getDataDir();
   QDir getUserDir();
+  void setAccordingToSettings();
+  void startGame();
+  void endGame();
 private slots:
   void paintCenterWidget(QPainter* p);
 protected:
+  void timerEvent(QTimerEvent* e);
   void closeEvent(QCloseEvent* e);
 public:
   MainWindow();

@@ -16,6 +16,7 @@
 // 
 
 #include <QPainter>
+#include <QPalette>
 #include <QApplication>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -74,6 +75,7 @@ MainWindow::MainWindow()
     }
   
   // some setup should be done according to this->_settings;
+  setAccordingToSettings();
 
   this->_charBackground = QPixmap(32, 32);
   this->_charBackground.fill(QColor(0, 0, 0, 0));
@@ -165,4 +167,25 @@ void MainWindow::closeEvent(QCloseEvent* e)
   QTextStream s(&f);
   this->_settings->save(s);
   f.close();
+}
+
+void MainWindow::setAccordingToSettings()
+{
+  QPalette pal = this->_main->palette();
+  pal.setColor(QPalette::Background, this->_settings->playgroundColor());
+  this->_main->setPalette(pal);
+  this->_main->setAutoFillBackground(true);
+}
+
+void MainWindow::startGame()
+{
+}
+
+void MainWindow::endGame()
+{
+}
+
+void MainWindow::timerEvent(QTimerEvent* ev)
+{
+  this->_main->update();
 }
