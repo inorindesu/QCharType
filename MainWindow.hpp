@@ -19,7 +19,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QPaintEvent>
+#include <QCloseEvent>
 #include <QPixmap>
 #include <QLabel>
 #include <QDir>
@@ -43,6 +43,8 @@ private:
   QDir getUserDir();
 private slots:
   void paintCenterWidget(QPainter* p);
+protected:
+  void closeEvent(QCloseEvent* e);
 public:
   MainWindow();
 };

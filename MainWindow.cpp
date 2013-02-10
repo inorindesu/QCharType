@@ -146,3 +146,23 @@ QDir MainWindow::getUserDir()
     }
   return QDir();
 }
+
+void MainWindow::closeEvent(QCloseEvent* e)
+{
+  QDir userDir = this->getUserDir();
+  if (userDir.exists() == false)
+    {
+      qWarning() << "Warning: The dir should be created but not in place. Settings saving is aborted!";
+      return;
+    }
+  QFileInfo userSettings(userDir, "settings.txt");
+  QFile f(userDir.filePath("settings.txt"));
+  if (f.open(QIODevice::WriteOnly | QIODevice::Text) == false)
+    {
+      qWarning() << "Warning: Cannot open settings file for writing!";
+      return;
+    }
+  QTextStream s(&f);
+  this->_settings->save(s);
+  f.close();
+}
