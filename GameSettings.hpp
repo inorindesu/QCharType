@@ -36,6 +36,7 @@ private:
   float _fontSize;
   int _windowWidth;
   int _windowHeight;
+  QColor _playgroundColor;
 
   // difficulty
   double _secsToGround;
@@ -47,6 +48,16 @@ public:
   void save(QTextStream& s);
 
 public:
+  QColor playgroundColor()
+  {
+    return this->_playgroundColor;
+  }
+
+  void setPlaygroundColor(QColor c)
+  {
+    this->_playgroundColor = c;
+  }
+
   float fontSize()
   {
     return this->_fontSize;

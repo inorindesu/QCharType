@@ -27,12 +27,13 @@ GameSettings::GameSettings()
   this->_inputMethod = "Chewing";
   this->_textDatabaseName = QString(); // TODO:TBD
   this->_fontName = QApplication::font().family();
-  this->_fontSize = QApplication::font().pointSizeF();
+  this->_fontSize = QApplication::font().pointSizeF() * 1.5f;
   this->_windowWidth = 640;
   this->_windowHeight = 480;
   this->_secsToGround = 4.0f;
   this->_shieldStrength = 5.0f;
   this->_shieldRegen = 0.01f;
+  this->_playgroundColor = QColor(0, 0, 0);
 }
 
 void GameSettings::load(QTextStream& s)
