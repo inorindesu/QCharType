@@ -22,13 +22,15 @@ NormalCharBlock::NormalCharBlock(float width, QChar char_, float x, float y,
                                  QFont font)
   : CharObject(width, char_, x, y, background, foreground, font)
 {
+  // prepare the pixmap
+  // pixmap is already initialized in CharObject ctor.
+  // size is this->_width * this->_width
   
-}
-
-void NormalCharBlock::paint(QPainter* p)
-{
-  float x = this->_x;
-  float y = this->_y;
-  p->drawPixmap(x, y, this->_pixmap);
-  p->drawText(x, y, this->_width, this->_width, Qt::AlignHCenter | Qt::AlignVCenter, QString(this->_char));
+  QPainter p(&this->_pixmap);
+  p.setRenderHint(QPainter::Antialiasing, true);
+  p.setRenderHint(QPainter::TextAntialiasing, true);
+  p.setBrush(QBrush(this->_background));
+  p.drawEllipse(this->_pixmap.rect());
+  p.setBrush(QBrush(this->_foreground));
+  p.drawText(this->_pixmap.rect(), Qt::AlignCenter, QString(this->_char));
 }

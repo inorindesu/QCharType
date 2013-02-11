@@ -28,7 +28,10 @@ public:
                   QColor background = QColor(195, 195, 195),
                   QColor foreground = QColor(0, 0, 0),
                   QFont font = QFont());
-  void paint(QPainter* p);
+  void paint(QPainter* p)
+  {
+      p->drawPixmap(this->_x, this->_y, this->_pixmap);
+  }
 };
 
 #endif
