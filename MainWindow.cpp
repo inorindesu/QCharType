@@ -84,6 +84,7 @@ MainWindow::MainWindow()
   p.drawEllipse(0, 0, 32, 32);
 
   this->_im = NULL;
+  this->_playing = false;
 }
 
 void MainWindow::paintCenterWidget(QPainter* p)
@@ -179,24 +180,53 @@ void MainWindow::setAccordingToSettings()
 
 void MainWindow::startGame()
 {
-  // lockdown menuitems
   // reset game-related objects (IME .. etc)
+  QString imName = this->_settings->inputMethodName();
+  this->_im = InputMethod::loadInputMethodByName(this->getDataDir().absolutePath(), imName);
+  if (this->_im == NULL)
+    {
+      qWarning() << "Warning: Game cannot be started due to inability of loading IM";
+      return;
+    }
+  // lockdown menuitems
+
   // start timer
+  this->_timerId = this->startTimer(25);  //40fps
   // start receiving input
+  this->_playing = true;
 }
 
 void MainWindow::endGame()
 {
   // stop receiving input
-  // reopen menuitems
+  this->_playing = false;
   // stop timer
+  this->killTimer(this->_timerId);
+  // reopen menuitems
+  // cleanup
+  delete this->_im;
+  this->_im = NULL;
+  // show game result
 }
 
 void MainWindow::timerEvent(QTimerEvent* ev)
 {
+  // check if some blocks were shot down
+
+  // check if some blocks were touched the ground
+  // if shield cannot hold, the game is end immediately
+
+  // calculate new positions for rest of blocks
+
+  // redraw
   this->_main->update();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* e)
 {
+  if (this->_playing)
+    {
+      return;
+    }
+  QMainWindow::keyPressEvent(e);
 }

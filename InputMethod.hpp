@@ -46,6 +46,7 @@ private:
   QSet<QChar> _selectionKeys;
   QString _inputBuffer;
   QString _candidates;
+  
   void defaultSetup();
 public:
   InputMethod(InputMethodLoader& l);
@@ -61,6 +62,7 @@ public:
   QString getInputBuffer();
   // get character from the candidates
   QChar selectCharFromCandidates(int index);
+  static InputMethod* loadInputMethodByName(QString dataDir, QString s);
 };
 
 #endif

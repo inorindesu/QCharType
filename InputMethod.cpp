@@ -15,6 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 
 
+#include <QtDebug>
+#include <QDir>
+#include <QFileInfo>
+#include <QFile>
+#include <QTextStream>
+
 #include "InputMethod.hpp"
 
 void InputMethod::defaultSetup()
@@ -92,4 +98,107 @@ QChar InputMethod::selectCharFromCandidates(int index)
       this->clearStats();
       return ret;
     }
+}
+
+static QList<QStringList> loadIMListFile(QString dataDir, bool* error)
+{
+  *error = false;
+  QList<QStringList> ret;
+
+  QFileInfo imList(QDir(dataDir), "IMList.txt");
+  if (imList.exists() == false)
+    {
+      qWarning() << "Wanrning: cannot find IMList.txt";
+      *error = true;
+      return ret;
+    }
+
+  QFile imListFile(imList.absoluteFilePath());
+  if(imListFile.open(QIODevice::ReadOnly | QIODevice::Text) == false)
+    {
+      qWarning() << "Warning: cannot open IMList.txt";
+      *error = true;
+      return ret;
+    }
+  
+  QTextStream s(&imListFile);
+  int lineno = 0;
+  while(s.atEnd() == false)
+    {
+      lineno += 1;
+      QString line = s.readLine();
+      
+      // ignoring comment
+      if (line.at(0) == '#')
+        continue;
+      
+      QStringList items = line.split('\t');
+      if (items.length() < 3)
+        {
+          qWarning() << "Warning: format error. The rest of data would be discarded.";
+          *error = true;
+          return ret;
+        }
+      ret.append(items);
+    }
+
+  imListFile.close();
+  return ret;
+}
+
+QStringList getIMNameList(QString dataDir)
+{
+  QStringList ret;
+  bool error;
+  QList<QStringList> items = loadIMListFile(dataDir, &error);
+  if (error)
+    {
+      qWarning() << "Warning: error occured while loading IMList.txt";
+      return ret;
+    }
+  
+  for(int i = 0; i < items.length(); i++)
+    {
+      ret.append(items.at(i)[0]);
+    }
+  return ret;
+}
+
+InputMethod* InputMethod::loadInputMethodByName(QString dataDir, QString s)
+{
+  bool error;
+  QList<QStringList> items = loadIMListFile(dataDir, &error);
+  for(int i = 0; i < items.length(); i++)
+    {
+      QStringList item = items.at(i);
+      if (item[0] == s)
+        {
+          // IM found. Prepare to load it
+          qDebug() << "IM" << item[0] << "found in IMList.txt";
+
+          InputMethodLoader* loader = InputMethodLoader::getLoaderByName(item[2]);
+          QString tableFilePath = item[1];
+          QFileInfo tableFileInfo(QDir(dataDir), tableFilePath);
+          if (tableFileInfo.exists() == false)
+            {
+              qWarning() << "Warning: cannot find designated IM file.";
+              return NULL;
+            }
+
+          QFile tableFile(tableFileInfo.absoluteFilePath());
+          if (tableFile.open(QIODevice::ReadOnly | QIODevice::Text) == false)
+            {
+              qWarning() << "Warning: cannot open designated IM file";
+              return NULL;
+            }
+
+          QTextStream stream(&tableFile);
+          loader->loadData(stream);
+          InputMethod* im = new InputMethod(*loader);
+          tableFile.close();
+          delete loader;
+          return im;
+        }
+    }
+  return NULL;
 }

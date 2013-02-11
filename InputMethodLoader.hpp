@@ -37,13 +37,16 @@ protected:
   QSet<QChar> _selKey;
 public:
   InputMethodLoader();
-  virtual void loadData(QTextStream s) = 0;
+  virtual void loadData(QTextStream& s) = 0;
   QString name();
   QHash<QChar, QString> elemMap();
   QHash<QString, QString> charMap();
   QSet<QChar> commitKey();
   QSet<QChar> selKey();
   static InputMethodLoader* getLoaderByName(QString name);
+
+  virtual ~InputMethodLoader()
+  {}
 };
 
 #endif

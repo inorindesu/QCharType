@@ -19,7 +19,7 @@
 #include <QtDebug>
 #include <QStringList>
 
-void ChewingIMLoader::loadData(QTextStream s)
+void ChewingIMLoader::loadData(QTextStream& s)
 {
   bool elemMode = false;
   bool charMode = false;

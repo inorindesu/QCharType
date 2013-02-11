@@ -23,7 +23,9 @@
 class ChewingIMLoader : public InputMethodLoader
 {
 public:
-  virtual void loadData(QTextStream s);
+  virtual void loadData(QTextStream& s);
+  virtual ~ChewingIMLoader()
+  {}
 };
 
 #endif

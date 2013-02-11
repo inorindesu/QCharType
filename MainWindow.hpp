@@ -41,6 +41,8 @@ private:
   QLabel* _lblScore;
   // game-related
   InputMethod* _im;
+  bool _playing;
+  int _timerId;
   
   QDir getDataDir();
   QDir getUserDir();
