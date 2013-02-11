@@ -1,2 +1,2 @@
-#englishName	tableFile	tableFileParser
-Chewing	./libchewing/phone.cin	ChewingIMLoader
+#englishName(keyName)	tableFile	tableFileParser	showName
+Chewing	./libchewing/phone.cin	ChewingIMLoader	新酷音輸入法（精簡）

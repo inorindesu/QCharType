@@ -63,6 +63,8 @@ public:
   // get character from the candidates
   QChar selectCharFromCandidates(int index);
   static InputMethod* loadInputMethodByName(QString dataDir, QString s);
+  static QStringList getIMNameList(QString dataDir);
+  static QHash<QString, QString> getShownameNamePairs(QString dataDir);
 };
 
 #endif

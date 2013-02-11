@@ -136,7 +136,7 @@ static QList<QStringList> loadIMListFile(QString dataDir, bool* error)
         continue;
       
       QStringList items = line.split('\t');
-      if (items.length() < 3)
+      if (items.length() < 4)
         {
           qWarning() << "Warning: format error. The rest of data would be discarded.";
           *error = true;
@@ -149,7 +149,7 @@ static QList<QStringList> loadIMListFile(QString dataDir, bool* error)
   return ret;
 }
 
-QStringList getIMNameList(QString dataDir)
+QStringList InputMethod::getIMNameList(QString dataDir)
 {
   QStringList ret;
   bool error;
@@ -163,6 +163,25 @@ QStringList getIMNameList(QString dataDir)
   for(int i = 0; i < items.length(); i++)
     {
       ret.append(items.at(i)[0]);
+    }
+  return ret;
+}
+
+QHash<QString, QString> InputMethod::getShownameNamePairs(QString dataDir)
+{
+  QHash<QString, QString> ret;
+  bool error;
+  QList<QStringList> items = loadIMListFile(dataDir, &error);
+  if (error)
+    {
+      qWarning() << "Warning: error occured while loading IMList.txt";
+      return ret;
+    }
+  
+  for(int i = 0; i < items.length(); i++)
+    {
+      QStringList item = items.at(i);
+      ret.insert(item[3], item[0]);
     }
   return ret;
 }
