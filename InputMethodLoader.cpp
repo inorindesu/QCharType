@@ -22,6 +22,7 @@
 
 InputMethodLoader::InputMethodLoader()
 {
+  this->_loaded = false;
 }
 
 QString InputMethodLoader::name()

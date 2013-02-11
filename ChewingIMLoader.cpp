@@ -46,7 +46,9 @@ void ChewingIMLoader::loadData(QTextStream& s)
             }
           else if(line.endsWith("end"))
             {
-              charMode = false;
+              // '%chardef end' is the last line of phone.cin
+              this->_loaded = true;
+              return;
             }
         }
       else if(line.startsWith("%selkey"))

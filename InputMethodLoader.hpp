@@ -35,8 +35,12 @@ protected:
   QHash<QString, QString> _charMap;
   QSet<QChar> _commitKey;
   QSet<QChar> _selKey;
+  bool _loaded;
 public:
   InputMethodLoader();
+
+  // implementer of loadData function should set
+  // this->_loaded to true
   virtual void loadData(QTextStream& s) = 0;
   QString name();
   QHash<QChar, QString> elemMap();
@@ -44,6 +48,11 @@ public:
   QSet<QChar> commitKey();
   QSet<QChar> selKey();
   static InputMethodLoader* getLoaderByName(QString name);
+  
+  bool loaded()
+  {
+    return this->_loaded;
+  }
 
   virtual ~InputMethodLoader()
   {}

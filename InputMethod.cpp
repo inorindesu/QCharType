@@ -34,10 +34,13 @@ void InputMethod::defaultSetup()
 InputMethod::InputMethod(InputMethodLoader& loader)
 {
   this->defaultSetup();
-  this->_elementMap = loader.elemMap();
-  this->_charMap = loader.charMap();
-  this->_commitKeys = loader.commitKey();
-  this->_selectionKeys = loader.selKey();
+  if(loader.loaded())
+    {
+      this->_elementMap = loader.elemMap();
+      this->_charMap = loader.charMap();
+      this->_commitKeys = loader.commitKey();
+      this->_selectionKeys = loader.selKey();
+    }
 }
 
 void InputMethod::input(QChar c)
