@@ -21,6 +21,7 @@
 #include <QMainWindow>
 #include <QTimerEvent>
 #include <QCloseEvent>
+#include <QKeyEvent>
 #include <QPixmap>
 #include <QLabel>
 #include <QDir>
@@ -33,12 +34,13 @@ class MainWindow : public QMainWindow
 {
   Q_OBJECT
 private:
-  InputMethod* _im;
   GameSettings* _settings;
   QPixmap _charBackground;
   PaintableWidget* _main;
   QLabel* _lblInput;
   QLabel* _lblScore;
+  // game-related
+  InputMethod* _im;
   
   QDir getDataDir();
   QDir getUserDir();
@@ -48,6 +50,7 @@ private:
 private slots:
   void paintCenterWidget(QPainter* p);
 protected:
+  void keyPressEvent(QKeyEvent* e);
   void timerEvent(QTimerEvent* e);
   void closeEvent(QCloseEvent* e);
 public:

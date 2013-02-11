@@ -179,13 +179,24 @@ void MainWindow::setAccordingToSettings()
 
 void MainWindow::startGame()
 {
+  // lockdown menuitems
+  // reset game-related objects (IME .. etc)
+  // start timer
+  // start receiving input
 }
 
 void MainWindow::endGame()
 {
+  // stop receiving input
+  // reopen menuitems
+  // stop timer
 }
 
 void MainWindow::timerEvent(QTimerEvent* ev)
 {
   this->_main->update();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* e)
+{
 }
