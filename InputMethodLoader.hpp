@@ -35,7 +35,9 @@ protected:
   QHash<QString, QString> _charMap;
   QSet<QChar> _commitKey;
   QList<QChar> _selKey;
+  QHash<QString, int> _grouping;
   bool _loaded;
+  bool _hasGrouping;
 public:
   static InputMethodLoader* getLoaderByName(QString name);
 
@@ -46,6 +48,16 @@ public:
   InputMethodLoader()
   {
     this->_loaded = false;
+  }
+  
+  bool hasGrouping()
+  {
+    return this->_hasGrouping;
+  }
+
+  QHash<QString, int> groupingInfo()
+  {
+    return this->_grouping;
   }
 
   QString name()

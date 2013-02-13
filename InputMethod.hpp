@@ -46,7 +46,7 @@ private:
   QList<QChar> _selectionKeys;
   QString _inputBuffer;
   QString _candidates;
-  QHash<QChar, int> _grouping;
+  QHash<QString, int> _grouping;
   bool _hasGrouping;
   int _currentPage;
   

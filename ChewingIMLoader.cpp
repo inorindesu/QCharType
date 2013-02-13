@@ -23,10 +23,14 @@ void ChewingIMLoader::loadData(QTextStream& s)
 {
   bool elemMode = false;
   bool charMode = false;
+  bool groupMode = false;
   this->_name = "新酷音輸入法（精簡）";
   while(s.atEnd() == false)
     {
       QString line = s.readLine();
+      if (line.startsWith("#"))
+        continue;
+      
       if (line.startsWith("%keyname"))
         {
           if (line.endsWith("begin"))
@@ -46,7 +50,18 @@ void ChewingIMLoader::loadData(QTextStream& s)
             }
           else if(line.endsWith("end"))
             {
-              // '%chardef end' is the last line of phone.cin
+              charMode = false;
+            }
+        }
+      else if(line.startsWith("%groupdef"))
+        {
+          if (line.endsWith("begin"))
+            {
+              groupMode = true;
+            }
+          else if (line.endsWith("end"))
+            {
+              groupMode = false;
               this->_loaded = true;
               return;
             }
@@ -89,6 +104,21 @@ void ChewingIMLoader::loadData(QTextStream& s)
               QString buffer = this->_charMap.value(charKey, QString(""));
               // QHash::insert would replace old items with new ones.
               this->_charMap.insert(charKey, buffer.append(items[1][0]));
+            }
+          else if(groupMode == true)
+            {
+              // the key is in phoneic symbol
+              QString charKey = items[0];
+              bool ok;
+              int group = items[1].toInt(&ok);
+              if (ok == false)
+                {
+                  qWarning() << "Warning : the group" << items[1] << "cannot be converted to an integer";
+                  group = -1;
+                }
+              // get the corresponding key
+              QChar key = this->_elemMap.key(charKey);
+              this->_grouping.insert(key, group);
             }
         }
     }

@@ -41,6 +41,8 @@ InputMethod::InputMethod(InputMethodLoader& loader)
       this->_charMap = loader.charMap();
       this->_commitKeys = loader.commitKey();
       this->_selectionKeys = loader.selKey();
+      this->_hasGrouping = loader.hasGrouping();
+      this->_grouping = loader.groupingInfo();
     }
 }
 
