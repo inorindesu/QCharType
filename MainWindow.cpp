@@ -226,7 +226,35 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
 {
   if (this->_playing)
     {
-      return;
+      int key = e->key();
+      if (this->_im->hasCharacter() == false)
+        {
+          if (key >= 'A' && key <= 'Z')
+            {
+              key += 'a' - 'A';
+            }
+      
+          if ((key >= 'a' && key <= 'z') ||
+              (key >= '0' && key <= '9') ||
+              key == '-' || key == '=' || key == '[' || key == ']' ||
+              key == '\\'  || key == '\'' || key == ';' || key == ',' ||
+              key == '.' || key == '/' || key == '`')
+            {
+              this->_im->input(key);
+            }
+        }
+      else
+        {
+          if (key == ' ')
+            {
+              this->_im->input(' ');
+            }
+          else if(this->_im->isSelectionKey(key))
+            {
+              this->_im->selectCharFromCurrentPage(key);
+            }
+        }
+      // update candidate status bar
     }
   QMainWindow::keyPressEvent(e);
 }

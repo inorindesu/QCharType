@@ -59,7 +59,8 @@ public:
   const QString getInputBuffer() const;
   // get character from the candidates
   const QChar selectCharFromCandidates(int index);
-  const QChar selectCharFromCandidates(int page, int indexOfThePage);
+  //const QChar selectCharFromCandidates(int page, QChar key);
+  const QChar selectCharFromCurrentPage(QChar key);
   const QString getCandidatesOfCurrentPage() const;
 
   // check if candidate selection is available
@@ -79,6 +80,16 @@ public:
   int candidatesPerPage() const
   {
     return this->_selectionKeys.count();
+  }
+
+  bool isSelectionKey(QChar key) const
+  {
+    return this->_selectionKeys.contains(key);
+  }
+
+  int getCurrentPage() const
+  {
+    return this->_currentPage;
   }
 
   int candidatePageCount() const

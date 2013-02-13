@@ -111,6 +111,12 @@ const QChar InputMethod::selectCharFromCandidates(int index)
     }
 }
 
+const QChar InputMethod::selectCharFromCurrentPage(QChar key)
+{
+  int idx = this->_selectionKeys.indexOf(key);
+  return this->selectCharFromCandidates(this->_currentPage * this->candidatesPerPage() + idx);
+}
+
 static QList<QStringList> loadIMListFile(QString dataDir, bool* error)
 {
   *error = false;
