@@ -86,15 +86,9 @@ void ChewingIMLoader::loadData(QTextStream& s)
           else if(charMode == true)
             {
               QChar charKey = items[0][0];
-              if (this->_charMap.contains(charKey) == false)
-                {
-                  this->_charMap.insert(charKey, items[1]);
-                }
-              else
-                {
-                  qWarning() << "GG: repeated element in charMap. Key: " << charKey << "Value:" << items[1] << "Old value:"
-                             << this->_charMap.value(charKey);
-                }
+              QString buffer = this->_charMap.value(charKey, QString(""));
+              // QHash::insert would replace old items with new ones.
+              this->_charMap.insert(charKey, buffer.append(items[1][0]));
             }
         }
     }
