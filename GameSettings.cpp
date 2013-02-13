@@ -22,6 +22,11 @@
 
 GameSettings::GameSettings()
 {
+  this->fillDefaultValue();
+}
+
+void GameSettings::fillDefaultValue()
+{
   this->_backColor = QColor(195, 195, 195);
   this->_foreColor = QColor(0, 0, 0);
   this->_inputMethod = "Chewing";

@@ -42,6 +42,8 @@ private:
   double _secsToGround;
   double _shieldStrength;
   double _shieldRegen;
+
+  void fillDefaultValue();
 public:
   GameSettings();
   void load(QTextStream& s);
