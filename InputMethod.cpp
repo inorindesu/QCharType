@@ -29,6 +29,7 @@ void InputMethod::defaultSetup()
     {
       this->_selectionKeys << '0' + i;
     }
+  this->_hasGrouping = false;
 }
 
 InputMethod::InputMethod(InputMethodLoader& loader)
@@ -54,6 +55,15 @@ void InputMethod::input(QChar c)
       else
         {
           this->_inputBuffer.append(c);
+
+          // for example, ㄅ and ㄆ are in the same groups.
+          // they cannot be in _inputBuffer at the same time
+          // so, if the buffer is : ㄅㄧㄆ, it should be changed to ㄆㄧ
+          if (this->_hasGrouping == true)
+            {
+              this->processGrouping();
+            }
+
           if (this->_commitKeys.contains(c))
             {
               this->_candidates = this->_charMap.value(this->_inputBuffer, QString());
@@ -237,4 +247,28 @@ InputMethod* InputMethod::loadInputMethodByName(QString dataDir, QString s)
         }
     }
   return NULL;
+}
+
+void InputMethod::processGrouping()
+{
+  // key: group, value: key
+  QHash<int, QChar> objects;
+  for(int i = 0; i < this->_inputBuffer.length(); i++)
+    {
+      QChar c = this->_inputBuffer.at(i);
+      objects.insert(this->_grouping.value(c, -1), c);
+    }
+
+  // reconstruct _inputBuffer
+  QList<int> keys = objects.keys();
+  qSort(keys);
+  QString buf = "";
+  for(int i = 0; i < keys.count(); i++)
+    {
+      int k = keys.at(i);
+      if (k < 0)
+        continue;
+      buf.append(objects[k]);
+    }
+  this->_inputBuffer = buf;
 }

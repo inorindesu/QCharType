@@ -46,9 +46,12 @@ private:
   QList<QChar> _selectionKeys;
   QString _inputBuffer;
   QString _candidates;
+  QHash<QChar, int> _grouping;
+  bool _hasGrouping;
   int _currentPage;
   
   void defaultSetup();
+  void processGrouping();
 public:
   InputMethod(InputMethodLoader& l);
   // receive an input character
