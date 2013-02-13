@@ -20,36 +20,6 @@
 // implementations
 #include "ChewingIMLoader.hpp"
 
-InputMethodLoader::InputMethodLoader()
-{
-  this->_loaded = false;
-}
-
-QString InputMethodLoader::name()
-{
-  return this->_name;
-}
-
-QHash<QChar, QString> InputMethodLoader::elemMap()
-{
-  return this->_elemMap;
-}
-
-QHash<QString, QString> InputMethodLoader::charMap()
-{
-  return this->_charMap;
-}
-
-QSet<QChar> InputMethodLoader::commitKey()
-{
-  return this->_commitKey;
-}
-
-QSet<QChar> InputMethodLoader::selKey()
-{
-  return this->_selKey;
-}
-
 InputMethodLoader* InputMethodLoader::getLoaderByName(QString name)
 {
   if(name == "ChewingIMLoader")

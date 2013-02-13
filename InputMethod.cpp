@@ -60,19 +60,26 @@ void InputMethod::input(QChar c)
             }
         }
     }
+  else // ready for selection. Handles page fliping only
+    {
+      if (c == ' ')
+        {
+          this->_currentPage += 1;
+          if (this->_currentPage > this->candidatePageCount())
+            {
+              this->_currentPage = 0;
+            }
+        }
+    }
 }
 
-bool InputMethod::hasCharacter()
+const QString InputMethod::getCandidatesOfCurrentPage() const
 {
-  return this->_candidates.isNull() == false;
+  int c = this->candidatesPerPage();
+  return this->_candidates.mid(this->_currentPage * c, c);
 }
 
-QString InputMethod::getCandidates()
-{
-  return this->_candidates;
-}
-
-QString InputMethod::getInputBuffer()
+const QString InputMethod::getInputBuffer() const
 {
   // convert from key to char
   QString buf = "";
@@ -87,9 +94,10 @@ void InputMethod::clearStats()
 {
   this->_candidates = QString();
   this->_inputBuffer = QString();
+  this->_currentPage = 0;
 }
 
-QChar InputMethod::selectCharFromCandidates(int index)
+const QChar InputMethod::selectCharFromCandidates(int index)
 {
   if (index >= this->_candidates.length())
     {

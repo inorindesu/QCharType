@@ -43,25 +43,54 @@ private:
   QSet<QChar> _commitKeys;
   // list of selection key
   // default is 1~9 keys of the main keyboard
-  QSet<QChar> _selectionKeys;
+  QList<QChar> _selectionKeys;
   QString _inputBuffer;
   QString _candidates;
+  int _currentPage;
   
   void defaultSetup();
 public:
   InputMethod(InputMethodLoader& l);
   // receive an input character
   void input(QChar c);
-  // check if candidate selection is available
-  bool hasCharacter();
-  // get the list of candidate
-  QString getCandidates();
   // clear input buffer
   void clearStats();
   // get symbols in the buffer （Ex: ㄅ一）
-  QString getInputBuffer();
+  const QString getInputBuffer() const;
   // get character from the candidates
-  QChar selectCharFromCandidates(int index);
+  const QChar selectCharFromCandidates(int index);
+  const QChar selectCharFromCandidates(int page, int indexOfThePage);
+  const QString getCandidatesOfCurrentPage() const;
+
+  // check if candidate selection is available
+  bool hasCharacter() const
+  {
+    return this->_candidates.isNull() == false;
+  }
+
+  // get the list of candidate
+  const QString getCandidates() const
+  {
+    return this->_candidates;
+  }
+
+  // get number of candidates per page
+
+  int candidatesPerPage() const
+  {
+    return this->_selectionKeys.count();
+  }
+
+  int candidatePageCount() const
+  {
+    int n = this->getCandidates().count();
+    int p = this->candidatesPerPage();
+    int a = n / p;
+    if (n % p != 0)
+      a += 1;
+    return a;
+  }
+
   static InputMethod* loadInputMethodByName(QString dataDir, QString s);
   static QStringList getIMNameList(QString dataDir);
   static QHash<QString, QString> getShownameNamePairs(QString dataDir);
