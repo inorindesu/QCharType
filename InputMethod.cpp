@@ -251,14 +251,45 @@ InputMethod* InputMethod::loadInputMethodByName(QString dataDir, QString s)
   return NULL;
 }
 
+int maxLength(QList<QString> items)
+{
+  int m = -1;
+  for(int i = 0; i < items.length(); i++)
+    {
+      int l = items.at(i).length();
+      if (l > m)
+        m = l;
+    }
+  return m;
+}
+
 void InputMethod::processGrouping()
 {
   // key: group, value: key
-  QHash<int, QChar> objects;
-  for(int i = 0; i < this->_inputBuffer.length(); i++)
+  QHash<int, QString> objects;
+  int maxKeyLength = maxLength(this->_grouping.keys());
+  QString currentKey = QString(this->_inputBuffer.at(0));
+  QString last = this->_inputBuffer.right(this->_inputBuffer.length() - 1);
+  while(true)
     {
-      QChar c = this->_inputBuffer.at(i);
-      objects.insert(this->_grouping.value(c, -1), c);
+      if(this->_grouping.contains(currentKey))
+        {
+          objects.insert(this->_grouping.value(currentKey, -1), currentKey);
+          currentKey = QString(last.at(0));
+          last = last.right(last.length() - 1);
+        }
+      else
+        {
+          if (currentKey.length() >= maxKeyLength)
+            {
+              currentKey = QString(last.at(0));
+            }
+          else
+            {
+              currentKey += last.at(0);
+            }
+          last = last.right(last.length() - 1);
+        }
     }
 
   // reconstruct _inputBuffer
