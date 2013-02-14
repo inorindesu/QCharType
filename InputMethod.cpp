@@ -291,6 +291,7 @@ void InputMethod::processGrouping()
       else
         {
           qDebug() << "[IM-G] Key" << currentKey << "is not found";
+
           if (last.isEmpty())
             break;
 
@@ -308,6 +309,7 @@ void InputMethod::processGrouping()
       if (last.isEmpty() && currentKey.isEmpty())
         break;
     }
+  qDebug() << "[IM-G] Grouping ended.";
 
   // reconstruct _inputBuffer
   QList<int> keys = objects.keys();
