@@ -277,16 +277,23 @@ void InputMethod::processGrouping()
   int maxKeyLength = maxLength(this->_grouping.keys());
   QString currentKey = QString(this->_inputBuffer.at(0));
   QString last = this->_inputBuffer.right(this->_inputBuffer.length() - 1);
+  
+  qDebug() << "[IM-G] Grouping started.";
   while(true)
     {
       if(this->_grouping.contains(currentKey))
         {
-          objects.insert(this->_grouping.value(currentKey, -1), currentKey);
+          int g = this->_grouping.value(currentKey, -1);
+          qDebug() << "[IM-G] The key" << currentKey << "is in group" << g;
+          objects.insert(g, currentKey);
           currentKey = QString(last.at(0));
-          last = last.right(last.length() - 1);
         }
       else
         {
+          qDebug() << "[IM-G] Key" << currentKey << "is not found";
+          if (last.isEmpty())
+            break;
+
           if (currentKey.length() >= maxKeyLength)
             {
               currentKey = QString(last.at(0));
@@ -295,10 +302,10 @@ void InputMethod::processGrouping()
             {
               currentKey += last.at(0);
             }
-          last = last.right(last.length() - 1);
         }
-      
-      if (last.isEmpty())
+
+      last = last.right(last.length() - 1);      
+      if (last.isEmpty() && currentKey.isEmpty())
         break;
     }
 
