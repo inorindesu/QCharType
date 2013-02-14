@@ -50,6 +50,7 @@ MainWindow::MainWindow()
 
   central->setLayout(mainLayout);
   this->setCentralWidget(central);
+  this->setupMenubar();
   this->resize(640, 480);
 
   // game setup
@@ -255,6 +256,35 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             }
         }
       // update candidate status bar
+      this->updateInputStatus();
     }
   QMainWindow::keyPressEvent(e);
+}
+
+void MainWindow::updateInputStatus()
+{
+  QString str = "";
+  if(this->_im->hasCharacter())
+    {
+      // listing candidates
+      QString candidates = this->_im->getCandidatesOfCurrentPage();
+      QList<QChar> selectionKeys = this->_im->selectionKeys();
+      int iT = qMin(candidates.length(), selectionKeys.length());
+      for(int i = 0; i < iT; i++)
+        {
+          str += QString("%1:%2  ").arg(selectionKeys.at(i)).arg(candidates.at(i));
+        }
+    }
+  else
+    {
+      // still input phoneic elements
+      str += this->_im->getInputBuffer();
+    }
+  this->_lblInput->setText(str);
+}
+
+void MainWindow::setupMenubar()
+{
+  QMenuBar* menu = this->menuBar();
+  QMenu* mGame = menu->addMenu("Game");
 }

@@ -90,6 +90,11 @@ public:
     return this->_selectionKeys.contains(key);
   }
 
+  const QList<QChar> selectionKeys() const
+  {
+    return this->_selectionKeys;
+  }
+
   int getCurrentPage() const
   {
     return this->_currentPage;

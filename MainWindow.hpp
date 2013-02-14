@@ -25,6 +25,8 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QDir>
+#include <QMenuBar>
+#include <QMenu>
 
 #include "InputMethod.hpp"
 #include "PaintableWidget.hpp"
@@ -49,6 +51,8 @@ private:
   void setAccordingToSettings();
   void startGame();
   void endGame();
+  void updateInputStatus();
+  void setupMenubar();
 private slots:
   void paintCenterWidget(QPainter* p);
 protected:
