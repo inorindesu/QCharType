@@ -288,7 +288,7 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             }
           else if(this->_im->isSelectionKey(key))
             {
-              this->_im->selectCharFromCurrentPage(key);
+              this->_commitedChars.append(this->_im->selectCharFromCurrentPage(key));
             }
         }
       // update candidate status bar
