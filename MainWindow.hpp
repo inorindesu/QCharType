@@ -58,7 +58,7 @@ private:
   bool _paused;
   int _score;
   double _shield;
-  QList<PaintableObject*> _charSprites;
+  QList<NormalCharBlock*> _charSprites;
   QString _commitedChars;
   
   QDir getDataDir();

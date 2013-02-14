@@ -226,11 +226,29 @@ void MainWindow::endGame(bool showResult)
 void MainWindow::timerEvent(QTimerEvent* ev)
 {
   // check if some blocks were shot down
+  for(int i = 0; i < this->_charSprites.length(); i++)
+    {
+      NormalCharBlock* b = this->_charSprites.at(i);
+      int idx = this->_commitedChars.indexOf(b->character());
+      if (idx != -1)
+        {
+          this->_commitedChars.remove(idx, 1);
+          qDebug() << "[LOOP] character shotdown. (" << b->character() << ")";
+        }
+    }
+
+  if (this->_commitedChars.isEmpty() == false)
+    {
+      qDebug() << "[LOOP] The following chars were not in the screen:" << this->_commitedChars;
+      this->_commitedChars = QString("");
+    }
 
   // check if some blocks were touched the ground
   // if shield cannot hold, the game is end immediately
 
   // calculate new positions for rest of blocks
+
+  // generate new blocks
 
   // redraw
   this->_main->update();
@@ -340,12 +358,12 @@ void MainWindow::menuPauseGame()
 
 void MainWindow::menuNewGame()
 {
-  //this->startGame();
+  this->startGame();
 }
 
 void MainWindow::menuStopGame()
 {
-  //this->endGame();
+  this->endGame();
 }
 
 void MainWindow::menuExit()
