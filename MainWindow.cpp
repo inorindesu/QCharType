@@ -259,6 +259,11 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
   if (this->_playing)
     {
       int key = e->key();
+      if (key == Qt::Key_Escape)
+        {
+          this->_im->clearStats();
+        }
+
       if (this->_im->hasCharacter() == false)
         {
           if (key >= 'A' && key <= 'Z')
