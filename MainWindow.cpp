@@ -99,7 +99,7 @@ void MainWindow::paintCenterWidget(QPainter* p)
 QDir MainWindow::getDataDir()
 {
   QDir dataDir = QDir(QCoreApplication::applicationDirPath());
-  if(dataDir.cd("./share/") == false)
+  if(dataDir.cd("../share/") == false)
     {
       qWarning() << "Warning: data directory cannot be found. The application may be crashed soon.";
     }
@@ -112,7 +112,7 @@ QDir MainWindow::getUserDir()
   QFileInfo portableMark(appDir, "PORTABLE");
   if (portableMark.exists())
     {
-      qDebug() << "Portable mark found!" << endl;
+      qDebug() << "Portable mark found!";
       if (appDir.exists("userData") == false)
         {
           if (appDir.mkdir("userData") == false)

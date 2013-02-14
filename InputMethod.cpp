@@ -226,10 +226,17 @@ InputMethod* InputMethod::loadInputMethodByName(QString dataDir, QString s)
 
           InputMethodLoader* loader = InputMethodLoader::getLoaderByName(item[2]);
           QString tableFilePath = item[1];
-          QFileInfo tableFileInfo(QDir(dataDir), tableFilePath);
+          QDir imeDataDir = QDir(dataDir);
+          if(imeDataDir.cd("IME") == false)
+            {
+              qWarning() << "IME dir cannot be CDed.";
+              return NULL;
+            }
+          QFileInfo tableFileInfo(imeDataDir, tableFilePath);
           if (tableFileInfo.exists() == false)
             {
-              qWarning() << "Warning: cannot find designated IM file.";
+              qWarning() << "Warning: cannot find designated IM file." << endl
+                         << "(Designated path is:" << tableFileInfo.absoluteFilePath();
               return NULL;
             }
 
