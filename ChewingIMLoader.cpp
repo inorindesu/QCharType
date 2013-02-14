@@ -25,6 +25,7 @@ void ChewingIMLoader::loadData(QTextStream& s)
   bool charMode = false;
   bool groupMode = false;
   this->_name = "新酷音輸入法（精簡）";
+  this->_hasGrouping = true;
   while(s.atEnd() == false)
     {
       QString line = s.readLine();
