@@ -306,6 +306,7 @@ void MainWindow::updateInputStatus()
       QString candidates = this->_im->getCandidatesOfCurrentPage();
       QList<QChar> selectionKeys = this->_im->selectionKeys();
       int iT = qMin(candidates.length(), selectionKeys.length());
+      qDebug() << candidates << endl << selectionKeys << iT;
       for(int i = 0; i < iT; i++)
         {
           str += QString("%1:%2  ").arg(selectionKeys.at(i)).arg(candidates.at(i));

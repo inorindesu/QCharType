@@ -35,6 +35,7 @@ void InputMethod::defaultSetup()
 InputMethod::InputMethod(InputMethodLoader& loader)
 {
   this->defaultSetup();
+  this->_currentPage = 0;
   if(loader.loaded())
     {
       this->_elementMap = loader.elemMap();
@@ -79,14 +80,17 @@ void InputMethod::input(QChar c)
         }
       qDebug() << "[IM] Buffer: " << this->_inputBuffer;
       qDebug() << "[IM] Candidates: " << this->_candidates;
+      qDebug() << "[IM] hasChar: " << this->hasCharacter();
     }
   else // ready for selection. Handles page fliping only
     {
       if (c == ' ')
         {
+          qDebug() << "[IM] Candidate page fliping..";
           this->_currentPage += 1;
-          if (this->_currentPage > this->candidatePageCount())
+          if (this->_currentPage >= this->candidatePageCount())
             {
+              qDebug() << "[IM] Candidate page rewind.";
               this->_currentPage = 0;
             }
         }
@@ -134,6 +138,7 @@ const QChar InputMethod::selectCharFromCandidates(int index)
 
 const QChar InputMethod::selectCharFromCurrentPage(QChar key)
 {
+  qDebug() << "[IM] Selecting char from current page (" << this->_currentPage << "), selection key:" << key;
   int idx = this->_selectionKeys.indexOf(key);
   return this->selectCharFromCandidates(this->_currentPage * this->candidatesPerPage() + idx);
 }
