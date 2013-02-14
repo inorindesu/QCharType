@@ -42,7 +42,10 @@ MainWindow::MainWindow()
   this->_lblInput = new QLabel(tr("Ready"));
   this->_lblInput->setAlignment(Qt::AlignLeft);
   statusLayout->addWidget(this->_lblInput, 1);
-  this->_lblScore = new QLabel(QString::number(0));
+  this->_lblShield = new QLabel("");
+  this->_lblShield->setAlignment(Qt::AlignRight);
+  statusLayout->addWidget(this->_lblShield);
+  this->_lblScore = new QLabel("");
   this->_lblScore->setAlignment(Qt::AlignRight);
   statusLayout->addWidget(this->_lblScore);
 
@@ -190,7 +193,7 @@ void MainWindow::startGame()
       return;
     }
   // lockdown menuitems
-
+  this->setMenuAsPlaying();
   // start timer
   this->_timerId = this->startTimer(25);  //40fps
   // start receiving input
@@ -198,18 +201,23 @@ void MainWindow::startGame()
   this->_paused = false;
 }
 
-void MainWindow::endGame()
+void MainWindow::endGame(bool showResult)
 {
   // stop receiving input
   this->_playing = false;
   this->_paused = false;
   // stop timer
   this->killTimer(this->_timerId);
-  // reopen menuitems
   // cleanup
   delete this->_im;
   this->_im = NULL;
+  this->_charSprites.clear();
+  // reopen menuitems
+  this->setMenuAsStandingBy();
   // show game result
+  if(showResult == true)
+    {
+    }
 }
 
 void MainWindow::timerEvent(QTimerEvent* ev)
@@ -295,20 +303,46 @@ void MainWindow::setupMenubar()
   this->_aExit = mGame->addAction(tr("Exit"), this, SLOT(menuExit()));
   this->_aSettings = menu->addAction(tr("Settings"), this, SLOT(menuSettings()));
 
+  this->setMenuAsStandingBy();
+  this->_aPauseGame->setVisible(false);
+}
+
+void MainWindow::setMenuAsStandingBy()
+{
   this->_aPauseGame->setDisabled(true);
   this->_aStopGame->setDisabled(true);
+  this->_aNewGame->setEnabled(true);
+  this->_aExit->setEnabled(true);
+  this->_aSettings->setEnabled(true);
+}
+
+void MainWindow::setMenuAsPlaying()
+{
+  this->_aPauseGame->setDisabled(false);
+  this->_aStopGame->setDisabled(false);
+  this->_aNewGame->setEnabled(false);
+  this->_aExit->setEnabled(false);
+  this->_aSettings->setEnabled(false);
+}
+
+void MainWindow::pause()
+{
+  // the time control when pause should be considered carefully!
 }
 
 void MainWindow::menuPauseGame()
 {
+  this->pause();
 }
 
 void MainWindow::menuNewGame()
 {
+  //this->startGame();
 }
 
 void MainWindow::menuStopGame()
 {
+  //this->endGame();
 }
 
 void MainWindow::menuExit()
@@ -318,4 +352,8 @@ void MainWindow::menuExit()
 
 void MainWindow::menuSettings()
 {
+  // call settings dialog.
+  // need not to worry about the running game,
+  // since settings menuitem can be only used when
+  // the game is not running.
 }

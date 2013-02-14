@@ -32,6 +32,8 @@
 #include "InputMethod.hpp"
 #include "PaintableWidget.hpp"
 #include "GameSettings.hpp"
+#include "PaintableObject.hpp"
+#include "NormalCharBlock.hpp"
 
 class MainWindow : public QMainWindow
 {
@@ -42,6 +44,7 @@ private:
   PaintableWidget* _main;
   QLabel* _lblInput;
   QLabel* _lblScore;
+  QLabel* _lblShield;
   
   QAction* _aNewGame;
   QAction* _aStopGame;
@@ -53,14 +56,20 @@ private:
   bool _playing;
   int _timerId;
   bool _paused;
+  int _score;
+  double _shield;
+  QList<PaintableObject*> _charSprites;
   
   QDir getDataDir();
   QDir getUserDir();
   void setAccordingToSettings();
   void startGame();
-  void endGame();
+  void endGame(bool showResult = true);
   void updateInputStatus();
   void setupMenubar();
+  void setMenuAsPlaying();
+  void setMenuAsStandingBy();
+  void pause();
 private slots:
   void paintCenterWidget(QPainter* p);
   void menuNewGame();
