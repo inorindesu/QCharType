@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QMenuBar>
 #include <QMenu>
+#include <QAction>
 
 #include "InputMethod.hpp"
 #include "PaintableWidget.hpp"
@@ -41,10 +42,17 @@ private:
   PaintableWidget* _main;
   QLabel* _lblInput;
   QLabel* _lblScore;
+  
+  QAction* _aNewGame;
+  QAction* _aStopGame;
+  QAction* _aExit;
+  QAction* _aSettings;
+  QAction* _aPauseGame;
   // game-related
   InputMethod* _im;
   bool _playing;
   int _timerId;
+  bool _paused;
   
   QDir getDataDir();
   QDir getUserDir();
@@ -55,6 +63,11 @@ private:
   void setupMenubar();
 private slots:
   void paintCenterWidget(QPainter* p);
+  void menuNewGame();
+  void menuStopGame();
+  void menuSettings();
+  void menuExit();
+  void menuPauseGame();
 protected:
   void keyPressEvent(QKeyEvent* e);
   void timerEvent(QTimerEvent* e);

@@ -195,12 +195,14 @@ void MainWindow::startGame()
   this->_timerId = this->startTimer(25);  //40fps
   // start receiving input
   this->_playing = true;
+  this->_paused = false;
 }
 
 void MainWindow::endGame()
 {
   // stop receiving input
   this->_playing = false;
+  this->_paused = false;
   // stop timer
   this->killTimer(this->_timerId);
   // reopen menuitems
@@ -286,5 +288,34 @@ void MainWindow::updateInputStatus()
 void MainWindow::setupMenubar()
 {
   QMenuBar* menu = this->menuBar();
-  QMenu* mGame = menu->addMenu("Game");
+  QMenu* mGame = menu->addMenu(tr("Game"));
+  this->_aNewGame = mGame->addAction(tr("New Game"), this, SLOT(menuNewGame()));
+  this->_aStopGame = mGame->addAction(tr("Stop Game"), this, SLOT(menuStopGame()));
+  this->_aPauseGame = mGame->addAction(tr("Pause Game"), this, SLOT(menuPauseGame()));
+  this->_aExit = mGame->addAction(tr("Exit"), this, SLOT(menuExit()));
+  this->_aSettings = menu->addAction(tr("Settings"), this, SLOT(menuSettings()));
+
+  this->_aPauseGame->setDisabled(true);
+  this->_aStopGame->setDisabled(true);
+}
+
+void MainWindow::menuPauseGame()
+{
+}
+
+void MainWindow::menuNewGame()
+{
+}
+
+void MainWindow::menuStopGame()
+{
+}
+
+void MainWindow::menuExit()
+{
+  this->close();
+}
+
+void MainWindow::menuSettings()
+{
 }
