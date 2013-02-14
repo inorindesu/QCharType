@@ -384,3 +384,73 @@ void MainWindow::menuSettings()
   // since settings menuitem can be only used when
   // the game is not running.
 }
+
+void MainWindow::enumAllTextDb()
+{
+  this->_textDbList.clear();
+  QDir txtDbDir = this->getDataDir();
+  if (txtDbDir.cd("charDb") == false)
+    {
+      qWarning() << "Warning: cannot find character database dir.";
+      return;
+    }
+  QStringList fileNames = txtDbDir.entryList();
+  for(int i = 0; i < fileNames.length(); i++)
+    {
+      QString fullFilePath = txtDbDir.filePath(fileNames.at(i));
+      QFile f(fullFilePath);
+      f.open(QIODevice::ReadOnly | QIODevice::Text);
+      QTextStream stream(&f);
+      while(true)
+        {
+          QString line = stream.readLine();
+          if(line.at(0) == '#')
+            continue;
+          this->_textDbList.insert(line, fullFilePath);
+        }
+      f.close();
+    }
+}
+
+void MainWindow::loadTextDb()
+{
+  this->_textDb = "";
+  QDir txtDbDir = this->getDataDir();
+  if (txtDbDir.cd("charDb") == false)
+    {
+      qWarning() << "Warning: cannot find character database dir.";
+      return;
+    }
+
+  // list all files and get their corresponding names
+  if (this->_textDbList.count() == 0)
+    this->enumAllTextDb();
+
+  // load textDb according to settings
+  QString dbPath = this->_textDbList.value(this->_settings->textDatabaseName(), QString());
+  if (dbPath.isNull())
+    {
+      qWarning() << "Warning: cannot find text database for" << this->_settings->textDatabaseName();
+      return;
+    }
+  QFile f(dbPath);
+  f.open(QIODevice::Text | QIODevice::ReadOnly);
+  bool gotHeaderLine = false;
+  QTextStream stream(&f);
+  while(stream.atEnd() == false)
+    {
+      QString line = stream.readLine();
+      if (line.at(0) == '#')
+        {
+          continue;
+        }
+
+      if (gotHeaderLine == false)
+        {
+          gotHeaderLine = true;
+          continue;
+        }
+      this->_textDb.append(line);
+    }
+  f.close();
+}

@@ -60,6 +60,8 @@ private:
   double _shield;
   QList<NormalCharBlock*> _charSprites;
   QString _commitedChars;
+  QString _textDb;
+  QHash<QString, QString> _textDbList; // name to path
   
   QDir getDataDir();
   QDir getUserDir();
@@ -71,6 +73,8 @@ private:
   void setMenuAsPlaying();
   void setMenuAsStandingBy();
   void pause();
+  void loadTextDb();
+  void enumAllTextDb();
 private slots:
   void paintCenterWidget(QPainter* p);
   void menuNewGame();

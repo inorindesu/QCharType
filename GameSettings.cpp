@@ -30,7 +30,7 @@ void GameSettings::fillDefaultValue()
   this->_backColor = QColor(195, 195, 195);
   this->_foreColor = QColor(0, 0, 0);
   this->_inputMethod = "Chewing";
-  this->_textDatabaseName = QString(); // TODO:TBD
+  this->_textDatabaseName = QString("常用國字標準字體表 (4808字)");
   this->_fontName = QApplication::font().family();
   this->_fontSize = QApplication::font().pointSizeF() * 1.5f;
   this->_windowWidth = 640;
