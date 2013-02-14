@@ -275,7 +275,7 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
               (key >= '0' && key <= '9') ||
               key == '-' || key == '=' || key == '[' || key == ']' ||
               key == '\\'  || key == '\'' || key == ';' || key == ',' ||
-              key == '.' || key == '/' || key == '`')
+              key == '.' || key == '/' || key == '`' || key == ' ')
             {
               this->_im->input(key);
             }

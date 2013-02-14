@@ -101,7 +101,7 @@ void ChewingIMLoader::loadData(QTextStream& s)
             }
           else if(charMode == true)
             {
-              QChar charKey = items[0][0];
+              QString charKey = items[0];
               QString buffer = this->_charMap.value(charKey, QString(""));
               // QHash::insert would replace old items with new ones.
               this->_charMap.insert(charKey, buffer.append(items[1][0]));

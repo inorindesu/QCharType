@@ -48,10 +48,16 @@ InputMethod::InputMethod(InputMethodLoader& loader)
 
 void InputMethod::input(QChar c)
 {
+  qDebug() << "[IM] Incoming char:" << c;
   if (this->hasCharacter() == false)
     {
       if (c == ' ')
         {
+          if (this->_hasGrouping == true)
+            {
+              this->processGrouping();
+            }
+          // try to commit the key sequence into string
           this->_candidates = this->_charMap.value(this->_inputBuffer, QString());
         }
       else
@@ -71,6 +77,8 @@ void InputMethod::input(QChar c)
               this->_candidates = this->_charMap.value(this->_inputBuffer, QString());
             }
         }
+      qDebug() << "[IM] Buffer: " << this->_inputBuffer;
+      qDebug() << "[IM] Candidates: " << this->_candidates;
     }
   else // ready for selection. Handles page fliping only
     {
@@ -104,6 +112,7 @@ const QString InputMethod::getInputBuffer() const
 
 void InputMethod::clearStats()
 {
+  qDebug() << "[IM] stats cleared";
   this->_candidates = QString();
   this->_inputBuffer = QString();
   this->_currentPage = 0;
