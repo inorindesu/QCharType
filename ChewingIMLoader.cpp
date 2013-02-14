@@ -74,7 +74,7 @@ void ChewingIMLoader::loadData(QTextStream& s)
               this->_selKey << keys.at(i);
             }
         }
-      else if(line.startsWith(""))
+      else if(line.startsWith("%endkey"))
         {
           QString keys = line.split(' ', QString::SkipEmptyParts)[1];
           for (int i = 0; i < keys.length(); i++)
