@@ -59,6 +59,7 @@ private:
   int _score;
   double _shield;
   QList<PaintableObject*> _charSprites;
+  QString _commitedChars;
   
   QDir getDataDir();
   QDir getUserDir();

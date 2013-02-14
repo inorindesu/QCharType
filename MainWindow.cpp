@@ -184,14 +184,16 @@ void MainWindow::setAccordingToSettings()
 
 void MainWindow::startGame()
 {
+  qDebug() << "[MW] Game started";
   // reset game-related objects (IME .. etc)
   QString imName = this->_settings->inputMethodName();
   this->_im = InputMethod::loadInputMethodByName(this->getDataDir().absolutePath(), imName);
   if (this->_im == NULL)
     {
-      qWarning() << "Warning: Game cannot be started due to inability of loading IM";
+      qWarning() << "[MW] Warning: Game cannot be started due to inability of loading IM";
       return;
     }
+  this->_commitedChars = "";
   // lockdown menuitems
   this->setMenuAsPlaying();
   // start timer
@@ -203,6 +205,7 @@ void MainWindow::startGame()
 
 void MainWindow::endGame(bool showResult)
 {
+  qDebug() << "[MW] Game ended.";
   // stop receiving input
   this->_playing = false;
   this->_paused = false;
