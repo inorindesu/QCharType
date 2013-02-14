@@ -297,6 +297,9 @@ void InputMethod::processGrouping()
             }
           last = last.right(last.length() - 1);
         }
+      
+      if (last.isEmpty())
+        break;
     }
 
   // reconstruct _inputBuffer
