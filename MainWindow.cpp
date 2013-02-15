@@ -200,6 +200,7 @@ void MainWindow::startGame()
   this->_shield = this->_settings->shieldStrength();
   this->_score = 0;
   this->_font = QFont(this->_settings->fontName(), this->_settings->fontSize());
+  this->loadTextDb();
   // lockdown menuitems
   this->setMenuAsPlaying();
   // start timer
@@ -235,7 +236,7 @@ void MainWindow::endGame(bool showResult)
 void MainWindow::timerEvent(QTimerEvent* ev)
 {
   // check if some blocks were shot down
-  qDebug("[Loop] Hit checker");
+  //qDebug("[Loop] Hit checker");
   for(int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
       NormalCharBlock* block = this->_charSprites.at(i);
@@ -256,7 +257,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
       this->_commitedChars = QString("");
     }
 
-  qDebug() << "[Loop] Block changer";
+  //qDebug() << "[Loop] Block changer";
   for (int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
       // check if some blocks were touched the ground
@@ -279,7 +280,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
 
 
   // generate new blocks
-  qDebug() << "[Loop] Block Generator";
+  //qDebug() << "[Loop] Block Generator";
   if(this->haveToGenerateBlock())
     {
       this->_charSprites.prepend(generateCharBlock());
@@ -429,10 +430,12 @@ void MainWindow::enumAllTextDb()
       qWarning() << "Warning: cannot find character database dir.";
       return;
     }
-  QStringList fileNames = txtDbDir.entryList();
+  QStringList fileNames = txtDbDir.entryList(QDir::Files);
   for(int i = 0; i < fileNames.length(); i++)
     {
       QString fullFilePath = txtDbDir.filePath(fileNames.at(i));
+      qDebug() << "[TDB] Loading" << fullFilePath;
+
       QFile f(fullFilePath);
       f.open(QIODevice::ReadOnly | QIODevice::Text);
       QTextStream stream(&f);
@@ -442,8 +445,16 @@ void MainWindow::enumAllTextDb()
           if(line.at(0) == '#')
             continue;
           this->_textDbList.insert(line, fullFilePath);
+          break;
         }
       f.close();
+    }
+  
+  QList<QString> textDbKeys = this->_textDbList.keys();
+  qDebug() << "[TDB] TextDBs found:";
+  for(int i = 0; i < textDbKeys.length(); i++)
+    {
+      qDebug() << "[TDB]" << textDbKeys.at(i) << "in" << this->_textDbList.value(textDbKeys.at(i));
     }
 }
 
