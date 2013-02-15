@@ -63,7 +63,6 @@ private:
   QHash<QString, QString> _textDbList; // name to path
   int _score;
   double _shield;
-  int _hitCount;
   int _intervalHitCount;
   int _generationSpeed;
   float _fallSpeed;

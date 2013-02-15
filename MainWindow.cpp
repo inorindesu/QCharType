@@ -265,6 +265,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
           this->_commitedChars.remove(idx, 1);
           this->_charSprites.removeAt(i);
           delete block;
+          this->_score += 1;
           qDebug() << "[LOOP] character shotdown. (" << charInBlock << ")";
         }
     }
@@ -315,7 +316,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
 
   // redraw
   this->_lblShield->setText(QString::number(this->_shield, 'f', 1));
-  this->_lblScore->setText(QString::number(this->_hitCount));
+  this->_lblScore->setText(QString::number(this->_score));
   this->_main->update();
   this->_lastFrame = QTime::currentTime();
 }
