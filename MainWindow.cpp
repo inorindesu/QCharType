@@ -234,7 +234,8 @@ void MainWindow::endGame(bool showResult)
 
 void MainWindow::timerEvent(QTimerEvent* ev)
 {
-  // check if some blocks were shot down 
+  // check if some blocks were shot down
+  qDebug("[Loop] Hit checker");
   for(int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
       NormalCharBlock* block = this->_charSprites.at(i);
@@ -255,7 +256,8 @@ void MainWindow::timerEvent(QTimerEvent* ev)
       this->_commitedChars = QString("");
     }
 
-  for (int i = this->_charSprites.length(); i >= 0; i--)
+  qDebug() << "[Loop] Block changer";
+  for (int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
       // check if some blocks were touched the ground
       // if shield cannot hold, the game is end immediately
@@ -277,6 +279,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
 
 
   // generate new blocks
+  qDebug() << "[Loop] Block Generator";
   if(this->haveToGenerateBlock())
     {
       this->_charSprites.prepend(generateCharBlock());
