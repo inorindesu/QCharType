@@ -201,7 +201,7 @@ void MainWindow::startGame()
   this->_score = 0;
   this->_font = QFont(this->_settings->fontName(), this->_settings->fontSize());
   this->loadTextDb();
-  this->_fallSpeed = this->_main->height() / this->settings->secsToGround();
+  this->_fallSpeed = this->_main->height() / this->_settings->secsToGround();
   // lockdown menuitems
   this->setMenuAsPlaying();
   // start timer
