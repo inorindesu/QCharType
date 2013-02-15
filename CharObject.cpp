@@ -26,13 +26,13 @@ CharObject::CharObject(int width, QChar char_,
   this->_foreground = foreground;
   this->_font = f;
   int sizeThreshold = f.pointSizeF() * 1.5;
-  if (width > 0)
+  if (width < sizeThreshold)
     {
       this->_width = sizeThreshold;
     }
   else
     {
-      this->_width = f.pointSizeF() * 1.5;
+      this->_width = width;
     }
   this->_char = char_;
   this->_pixmap = QPixmap(this->_width, this->_width);

@@ -30,6 +30,7 @@ NormalCharBlock::NormalCharBlock(float width, QChar char_, float x, float y,
   p.setRenderHint(QPainter::Antialiasing, true);
   p.setRenderHint(QPainter::TextAntialiasing, true);
   p.setBrush(QBrush(this->_background));
+  p.setFont(font);
   p.drawEllipse(this->_pixmap.rect());
   p.setBrush(QBrush(this->_foreground));
   p.drawText(this->_pixmap.rect(), Qt::AlignCenter, QString(this->_char));

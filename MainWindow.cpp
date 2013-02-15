@@ -201,6 +201,7 @@ void MainWindow::startGame()
   this->_score = 0;
   this->_font = QFont(this->_settings->fontName(), this->_settings->fontSize());
   this->loadTextDb();
+  this->_fallSpeed = this->_main->height() / this->settings->secsToGround();
   // lockdown menuitems
   this->setMenuAsPlaying();
   // start timer
@@ -520,7 +521,7 @@ NormalCharBlock* MainWindow::generateCharBlock()
   QChar c = this->_textDb.at(charIdx);
 
   GameSettings* settings = this->_settings;
-  float blockSize = settings->fontSize() * 1.2f;
+  float blockSize = settings->fontSize() * 2.0f;
 
   float x = qrand() % (this->_main->width() - (int)blockSize);
   this->_lastGenerated = QTime::currentTime();
