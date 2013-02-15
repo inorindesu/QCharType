@@ -32,7 +32,7 @@ void GameSettings::fillDefaultValue()
   this->_inputMethod = "Chewing";
   this->_textDatabaseName = QString::fromUtf8("常用國字標準字體表 (4808字)");
   this->_fontName = QApplication::font().family();
-  this->_fontSize = QApplication::font().pointSizeF() * 1.5f;
+  this->_fontSize = QApplication::font().pointSizeF() * 2.0f;
   this->_windowWidth = 640;
   this->_windowHeight = 480;
   this->_secsToGround = 4.0f;
