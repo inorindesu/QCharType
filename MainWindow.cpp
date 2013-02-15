@@ -93,9 +93,12 @@ MainWindow::MainWindow()
 
 void MainWindow::paintCenterWidget(QPainter* p)
 {
-  for(int i = 0; i < this->_charSprites.length(); i++)
+  if (this->_playing == true)
     {
-      this->_charSprites.at(i)->paint(p);
+      for(int i = 0; i < this->_charSprites.length(); i++)
+        {
+          this->_charSprites.at(i)->paint(p);
+        }
     }
 }
 
@@ -202,6 +205,11 @@ void MainWindow::startGame()
   this->_font = QFont(this->_settings->fontName(), this->_settings->fontSize());
   this->loadTextDb();
   this->_fallSpeed = this->_main->height() / this->_settings->secsToGround();
+  for(int i = 0; i < this->_charSprites.length(); i++)
+    {
+      delete this->_charSprites.at(i);
+    }
+  this->_charSprites.clear();
   qDebug() << "[MW] falling speed is set to" << this->_fallSpeed;
   // lockdown menuitems
   this->setMenuAsPlaying();
@@ -227,7 +235,7 @@ void MainWindow::endGame(bool showResult)
   // cleanup
   delete this->_im;
   this->_im = NULL;
-  this->_charSprites.clear();
+  //this->_charSprites.clear();
   // reopen menuitems
   this->setMenuAsStandingBy();
   // show game result
