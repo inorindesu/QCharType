@@ -535,3 +535,11 @@ NormalCharBlock* MainWindow::generateCharBlock()
                              settings->foregroundColor(),
                              this->_font);
 }
+
+void MainWindow::resizeEvent(QResizeEvent* e)
+{
+  if(this->_playing)
+    {
+      this->_fallSpeed = this->_main->height() / this->_settings->secsToGround();
+    }
+}

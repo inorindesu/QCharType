@@ -97,6 +97,7 @@ protected:
   void keyPressEvent(QKeyEvent* e);
   void timerEvent(QTimerEvent* e);
   void closeEvent(QCloseEvent* e);
+  void resizeEvent(QResizeEvent* e);
 public:
   MainWindow();
 };
