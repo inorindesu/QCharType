@@ -219,11 +219,11 @@ void MainWindow::startGame()
 void MainWindow::endGame(bool showResult)
 {
   qDebug() << "[MW] Game ended.";
+  // stop timer
+  this->killTimer(this->_timerId);
   // stop receiving input
   this->_playing = false;
   this->_paused = false;
-  // stop timer
-  this->killTimer(this->_timerId);
   // cleanup
   delete this->_im;
   this->_im = NULL;
@@ -238,10 +238,17 @@ void MainWindow::endGame(bool showResult)
 
 void MainWindow::timerEvent(QTimerEvent* ev)
 {
+  if (this->_playing == false)
+    {
+      return;
+    }
   // check if some blocks were shot down
   //qDebug("[Loop] Hit checker");
   for(int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
+      if (this->_playing == false)
+        return;
+
       NormalCharBlock* block = this->_charSprites.at(i);
       QChar charInBlock = block->character();
       int idx = this->_commitedChars.indexOf(charInBlock);
@@ -264,6 +271,9 @@ void MainWindow::timerEvent(QTimerEvent* ev)
   float fallingDelta = this->_fallSpeed * this->_lastFrame.msecsTo(QTime::currentTime()) / 1000.0f;
   for (int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
+      if (this->_playing == false)
+        return;
+
       // check if some blocks were touched the ground
       // if shield cannot hold, the game is end immediately
       NormalCharBlock* block = this->_charSprites.at(i);
@@ -283,6 +293,10 @@ void MainWindow::timerEvent(QTimerEvent* ev)
       block->changeY(fallingDelta);
     }
 
+  if(this->_playing == false)
+    {
+      return;
+    }
 
   // generate new blocks
   //qDebug() << "[Loop] Block Generator";
