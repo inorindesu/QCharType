@@ -261,6 +261,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
     }
 
   //qDebug() << "[Loop] Block changer";
+  float fallingDelta = this->_fallSpeed * this->_lastFrame.msecsTo(QTime::currentTime()) / 1000.0f;
   for (int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
       // check if some blocks were touched the ground
@@ -279,7 +280,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
         }
       // calculate new positions for rest of blocks
       //qDebug() << "[LOOP] delta:" << this->_fallSpeed * this->_lastFrame.msecsTo(QTime::currentTime()) / 1000.0f;
-      block->changeY(this->_fallSpeed * this->_lastFrame.msecsTo(QTime::currentTime()) / 1000.0f);
+      block->changeY(fallingDelta);
     }
 
 
