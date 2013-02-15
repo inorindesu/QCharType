@@ -70,6 +70,7 @@ private:
   QFont _font;
   QTime _lastHitRecorded;
   QTime _lastGenerated;
+  QTime _lastFrame;
   
   QDir getDataDir();
   QDir getUserDir();

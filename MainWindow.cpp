@@ -202,6 +202,7 @@ void MainWindow::startGame()
   this->_font = QFont(this->_settings->fontName(), this->_settings->fontSize());
   this->loadTextDb();
   this->_fallSpeed = this->_main->height() / this->_settings->secsToGround();
+  qDebug() << "[MW] falling speed is set to" << this->_fallSpeed;
   // lockdown menuitems
   this->setMenuAsPlaying();
   // start timer
@@ -212,6 +213,7 @@ void MainWindow::startGame()
   qsrand(QTime::currentTime().msecsTo(QTime(0, 0)));
   this->_lastHitRecorded = QTime();
   this->_lastGenerated = QTime();
+  this->_lastFrame = QTime::currentTime();
 }
 
 void MainWindow::endGame(bool showResult)
@@ -276,7 +278,8 @@ void MainWindow::timerEvent(QTimerEvent* ev)
             }
         }
       // calculate new positions for rest of blocks
-      block->changeY(this->_fallSpeed);
+      //qDebug() << "[LOOP] delta:" << this->_fallSpeed * this->_lastFrame.msecsTo(QTime::currentTime()) / 1000.0f;
+      block->changeY(this->_fallSpeed * this->_lastFrame.msecsTo(QTime::currentTime()) / 1000.0f);
     }
 
 
@@ -291,6 +294,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
   this->_lblShield->setText(QString::number(this->_shield, 'f', 1));
   this->_lblScore->setText(QString::number(this->_hitCount));
   this->_main->update();
+  this->_lastFrame = QTime::currentTime();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* e)
