@@ -300,14 +300,23 @@ void InputMethod::processGrouping()
           int g = this->_grouping.value(currentKey, -1);
           qDebug() << "[IM-G] The key" << currentKey << "is in group" << g;
           objects.insert(g, currentKey);
-          currentKey = QString(last.at(0));
+          if (last.isEmpty())
+            {
+              break;
+            }
+          else
+            {
+              currentKey = QString(last.at(0));
+            }
         }
       else
         {
           qDebug() << "[IM-G] Key" << currentKey << "is not found";
 
           if (last.isEmpty())
-            break;
+            {
+              break;
+            }
 
           if (currentKey.length() >= maxKeyLength)
             {
