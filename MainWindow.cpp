@@ -522,7 +522,7 @@ NormalCharBlock* MainWindow::generateCharBlock()
   GameSettings* settings = this->_settings;
   float blockSize = settings->fontSize() * 1.2f;
 
-  float x = qrand() % this->_main->width() - blockSize;
+  float x = qrand() % (this->_main->width() - (int)blockSize);
   this->_lastGenerated = QTime::currentTime();
   return new NormalCharBlock(blockSize, c, x, 0,
                              settings->backgroundColor(),
