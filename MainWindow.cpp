@@ -93,7 +93,10 @@ MainWindow::MainWindow()
 
 void MainWindow::paintCenterWidget(QPainter* p)
 {
-  p->drawPixmap(0, 0, this->_charBackground);
+  for(int i = 0; i < this->_charSprites.length(); i++)
+    {
+      this->_charSprites.at(i)->paint(p);
+    }
 }
 
 QDir MainWindow::getDataDir()
@@ -194,6 +197,9 @@ void MainWindow::startGame()
       return;
     }
   this->_commitedChars = "";
+  this->_shield = this->_settings->shieldStrength();
+  this->_score = 0;
+  this->_font = QFont(this->_settings->fontName(), this->_settings->fontSize());
   // lockdown menuitems
   this->setMenuAsPlaying();
   // start timer
@@ -201,6 +207,9 @@ void MainWindow::startGame()
   // start receiving input
   this->_playing = true;
   this->_paused = false;
+  qsrand(QTime::currentTime().msecsTo(QTime(0, 0)));
+  this->_lastHitRecorded = QTime();
+  this->_lastGenerated = QTime();
 }
 
 void MainWindow::endGame(bool showResult)
@@ -225,15 +234,18 @@ void MainWindow::endGame(bool showResult)
 
 void MainWindow::timerEvent(QTimerEvent* ev)
 {
-  // check if some blocks were shot down
-  for(int i = 0; i < this->_charSprites.length(); i++)
+  // check if some blocks were shot down 
+  for(int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
-      NormalCharBlock* b = this->_charSprites.at(i);
-      int idx = this->_commitedChars.indexOf(b->character());
+      NormalCharBlock* block = this->_charSprites.at(i);
+      QChar charInBlock = block->character();
+      int idx = this->_commitedChars.indexOf(charInBlock);
       if (idx != -1)
         {
           this->_commitedChars.remove(idx, 1);
-          qDebug() << "[LOOP] character shotdown. (" << b->character() << ")";
+          this->_charSprites.removeAt(i);
+          delete block;
+          qDebug() << "[LOOP] character shotdown. (" << charInBlock << ")";
         }
     }
 
@@ -243,12 +255,32 @@ void MainWindow::timerEvent(QTimerEvent* ev)
       this->_commitedChars = QString("");
     }
 
-  // check if some blocks were touched the ground
-  // if shield cannot hold, the game is end immediately
+  for (int i = this->_charSprites.length(); i >= 0; i--)
+    {
+      // check if some blocks were touched the ground
+      // if shield cannot hold, the game is end immediately
+      NormalCharBlock* block = this->_charSprites.at(i);
+      if (block->y() + block->width() >= this->_main->height())
+        {
+          this->_charSprites.removeAt(i);
+          delete block;
+          this->_shield -= 1;
+          
+          if (this->_shield <= 0)
+            {
+              this->endGame();
+            }
+        }
+      // calculate new positions for rest of blocks
+      block->changeY(this->_fallSpeed);
+    }
 
-  // calculate new positions for rest of blocks
 
   // generate new blocks
+  if(this->haveToGenerateBlock())
+    {
+      this->_charSprites.prepend(generateCharBlock());
+    }
 
   // redraw
   this->_main->update();
@@ -453,4 +485,31 @@ void MainWindow::loadTextDb()
       this->_textDb.append(line);
     }
   f.close();
+}
+
+bool MainWindow::haveToGenerateBlock()
+{
+  if (this->_lastGenerated.isNull())
+    return true;
+  
+  int msecs = this->_lastGenerated.msecsTo(QTime::currentTime());
+  if (msecs >= 1000)
+    return true;
+  return false;
+}
+
+NormalCharBlock* MainWindow::generateCharBlock()
+{
+  int charIdx = qrand() % this->_textDb.length();
+  QChar c = this->_textDb.at(charIdx);
+
+  GameSettings* settings = this->_settings;
+  float blockSize = settings->fontSize() * 1.5f;
+
+  float x = qrand() % this->_main->width() - blockSize;
+  this->_lastGenerated = QTime::currentTime();
+  return new NormalCharBlock(blockSize, c, x, 0,
+                             settings->backgroundColor(),
+                             settings->foregroundColor(),
+                             this->_font);
 }

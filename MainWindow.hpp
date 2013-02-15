@@ -28,6 +28,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
+#include <QTime>
 
 #include "InputMethod.hpp"
 #include "PaintableWidget.hpp"
@@ -56,12 +57,18 @@ private:
   bool _playing;
   int _timerId;
   bool _paused;
-  int _score;
-  double _shield;
   QList<NormalCharBlock*> _charSprites;
   QString _commitedChars;
   QString _textDb;
   QHash<QString, QString> _textDbList; // name to path
+  int _score;
+  double _shield;
+  int _hitCount;
+  int _generationSpeed;
+  float _fallSpeed;
+  QFont _font;
+  QTime _lastHitRecorded;
+  QTime _lastGenerated;
   
   QDir getDataDir();
   QDir getUserDir();
@@ -75,6 +82,8 @@ private:
   void pause();
   void loadTextDb();
   void enumAllTextDb();
+  bool haveToGenerateBlock();
+  NormalCharBlock* generateCharBlock();
 private slots:
   void paintCenterWidget(QPainter* p);
   void menuNewGame();
