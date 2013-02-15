@@ -287,6 +287,8 @@ void MainWindow::timerEvent(QTimerEvent* ev)
     }
 
   // redraw
+  this->_lblShield->setText(QString::number(this->_shield, 'f', 1));
+  this->_lblScore->setText(QString::number(this->_hitCount));
   this->_main->update();
 }
 

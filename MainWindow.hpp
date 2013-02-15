@@ -64,6 +64,7 @@ private:
   int _score;
   double _shield;
   int _hitCount;
+  int _intervalHitCount;
   int _generationSpeed;
   float _fallSpeed;
   QFont _font;
