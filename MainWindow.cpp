@@ -91,6 +91,7 @@ MainWindow::MainWindow()
 
   this->_im = NULL;
   this->_playing = false;
+  this->_paused = false;
 }
 
 void MainWindow::paintCenterWidget(QPainter* p)
@@ -276,6 +277,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
       // stop timer
       this->killTimer(this->_timerId);
       this->endGame_cleanup();
+      this->_main->update();
       return;
     }
   
