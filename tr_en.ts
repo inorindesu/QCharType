@@ -4,47 +4,52 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="MainWindow.cpp" line="43"/>
+        <location filename="MainWindow.cpp" line="33"/>
+        <source>Chinese typing game</source>
+        <translation>Chinese typing game</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="44"/>
         <source>Ready</source>
         <translation>Ready</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="170"/>
+        <location filename="MainWindow.cpp" line="171"/>
         <source>Exit game?</source>
         <translation>Exit game?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="170"/>
+        <location filename="MainWindow.cpp" line="171"/>
         <source>A game is still in progress. Do you want to exit?</source>
         <translation>A game is still in progress. Do you want to exit?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="448"/>
+        <location filename="MainWindow.cpp" line="449"/>
         <source>Game</source>
         <translation>Game</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="449"/>
+        <location filename="MainWindow.cpp" line="450"/>
         <source>New Game</source>
         <translation>New Game</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="450"/>
+        <location filename="MainWindow.cpp" line="451"/>
         <source>Stop Game</source>
         <translation>Stop Game</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="451"/>
+        <location filename="MainWindow.cpp" line="452"/>
         <source>Pause Game</source>
         <translation>Pause Game</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="452"/>
+        <location filename="MainWindow.cpp" line="453"/>
         <source>Exit</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="453"/>
+        <location filename="MainWindow.cpp" line="454"/>
         <source>Settings</source>
         <translation>Settings</translation>
     </message>

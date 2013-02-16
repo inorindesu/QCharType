@@ -30,6 +30,7 @@
 
 MainWindow::MainWindow()
 {
+  this->setWindowTitle(tr("Chinese typing game"));
   //widget 
   QWidget* central = new QWidget();
   QVBoxLayout* mainLayout = new QVBoxLayout();
