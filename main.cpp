@@ -29,7 +29,7 @@ int main(int argc, char** argv)
   QApplication app(argc, argv);
   
   QDir sharedDir = QDir(QCoreApplication::applicationDirPath());
-  QString trDirPath = "./share/translations/";
+  QString trDirPath = "../share/translations/";
   if (sharedDir.exists(trDirPath) == false)
     {
       qWarning() << "[main] translation is missing.";
