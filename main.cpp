@@ -17,11 +17,44 @@
 
 #include "MainWindow.hpp"
 #include <QApplication>
+#include <QCoreApplication>
+#include <QTranslator>
+#include <QDir>
+#include <QFileInfo>
+#include <QLocale>
+#include <QtDebug>
 
 int main(int argc, char** argv)
 {
   QApplication app(argc, argv);
-  // translation
+  
+  QDir sharedDir = QDir(QCoreApplication::applicationDirPath());
+  QString trDirPath = "./share/translations/";
+  if (sharedDir.exists(trDirPath) == false)
+    {
+      qWarning() << "[main] translation is missing.";
+    }
+  else
+    {
+      if (sharedDir.cd(trDirPath) == false)
+        {
+          qWarning() << "[main] translation directory cannot be CDed into.";
+        }
+      else
+        {
+          QTranslator translator;
+      
+          if (translator.load("tr_" + QLocale::system().name(), sharedDir.absolutePath()) == false)
+            {
+              qWarning() << "[main] translation file cannot be loaded";
+            }
+          else
+            {
+              app.installTranslator(&translator);
+            }
+        }
+    }
+
   MainWindow mw;
   mw.show();
   return app.exec();
