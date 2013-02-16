@@ -70,12 +70,13 @@ private:
   QTime _lastHitRecorded;
   QTime _lastGenerated;
   QTime _lastFrame;
+  bool _showResult;
   
   QDir getDataDir();
   QDir getUserDir();
   void setAccordingToSettings();
   void startGame();
-  void endGame(bool showResult = true);
+  void endGame();
   void updateInputStatus();
   void setupMenubar();
   void setMenuAsPlaying();
@@ -85,6 +86,7 @@ private:
   void enumAllTextDb();
   bool haveToGenerateBlock();
   NormalCharBlock* generateCharBlock();
+  void endGame_cleanup();
 private slots:
   void paintCenterWidget(QPainter* p);
   void menuNewGame();

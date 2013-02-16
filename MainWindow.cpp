@@ -205,11 +205,6 @@ void MainWindow::startGame()
   this->_font = QFont(this->_settings->fontName(), this->_settings->fontSize());
   this->loadTextDb();
   this->_fallSpeed = this->_main->height() / this->_settings->secsToGround();
-  for(int i = 0; i < this->_charSprites.length(); i++)
-    {
-      delete this->_charSprites.at(i);
-    }
-  this->_charSprites.clear();
   qDebug() << "[MW] falling speed is set to" << this->_fallSpeed;
   // lockdown menuitems
   this->setMenuAsPlaying();
@@ -224,22 +219,29 @@ void MainWindow::startGame()
   this->_lastFrame = QTime::currentTime();
 }
 
-void MainWindow::endGame(bool showResult)
+void MainWindow::endGame()
 {
-  qDebug() << "[MW] Game ended.";
-  // stop timer
-  this->killTimer(this->_timerId);
+  qDebug() << "[MW] Game ended. Flag set.";
   // stop receiving input
   this->_playing = false;
   this->_paused = false;
+}
+
+void MainWindow::endGame_cleanup()
+{
   // cleanup
   delete this->_im;
   this->_im = NULL;
+  for(int i = 0; i < this->_charSprites.length(); i++)
+    {
+      delete this->_charSprites.at(i);
+    }
+  this->_charSprites.clear();
   //this->_charSprites.clear();
   // reopen menuitems
   this->setMenuAsStandingBy();
   // show game result
-  if(showResult == true)
+  if(this->_showResult == true)
     {
     }
 }
@@ -248,6 +250,9 @@ void MainWindow::timerEvent(QTimerEvent* ev)
 {
   if (this->_playing == false)
     {
+      // stop timer
+      this->killTimer(this->_timerId);
+      this->endGame_cleanup();
       return;
     }
   // check if some blocks were shot down
@@ -294,6 +299,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
           
           if (this->_shield <= 0)
             {
+              this->_showResult = true;
               this->endGame();
             }
         }
