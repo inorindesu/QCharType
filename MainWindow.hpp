@@ -71,6 +71,7 @@ private:
   QTime _lastGenerated;
   QTime _lastFrame;
   bool _showResult;
+  int _lastRecharge;
   
   QDir getDataDir();
   QDir getUserDir();

@@ -224,6 +224,7 @@ void MainWindow::startGame()
   this->_font = QFont(this->_settings->fontName(), this->_settings->fontSize());
   this->loadTextDb();
   this->_fallSpeed = this->_main->height() / this->_settings->secsToGround();
+  this->_lastRecharge = 0;
   qDebug() << "[MW] falling speed is set to" << this->_fallSpeed;
   // lockdown menuitems
   this->setMenuAsPlaying();
@@ -267,6 +268,8 @@ void MainWindow::endGame_cleanup()
 
 void MainWindow::timerEvent(QTimerEvent* ev)
 {
+  int msecsDelta = this->_lastFrame.msecsTo(QTime::currentTime());
+
   if (this->_playing == false)
     {
       // stop timer
@@ -277,7 +280,6 @@ void MainWindow::timerEvent(QTimerEvent* ev)
   
   if (this->_paused == true)
     {
-      int msecsDelta = this->_lastFrame.msecsTo(QTime::currentTime());
       this->_lastFrame = QTime::currentTime();
       if(this->_lastHitRecorded.isNull() == false)
         {
@@ -316,7 +318,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
     }
 
   //qDebug() << "[Loop] Block changer";
-  float fallingDelta = this->_fallSpeed * this->_lastFrame.msecsTo(QTime::currentTime()) / 1000.0f;
+  float fallingDelta = this->_fallSpeed * msecsDelta / 1000.0f;
   for (int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
       if (this->_playing == false)
@@ -352,6 +354,19 @@ void MainWindow::timerEvent(QTimerEvent* ev)
   if(this->haveToGenerateBlock())
     {
       this->_charSprites.prepend(generateCharBlock());
+    }
+
+  //shield recharge.
+  this->_lastRecharge += msecsDelta;
+  if (this->_lastRecharge > 1000)
+    {
+      this->_lastRecharge -= 1000;
+      this->_shield += this->_settings->shieldRegen();
+      double maxStrength =  this->_settings->shieldStrength();
+      if (this->_shield > maxStrength)
+        {
+          this->_shield>maxStrength;
+        }
     }
 
   // redraw
