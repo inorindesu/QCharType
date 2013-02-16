@@ -23,6 +23,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QtDebug>
+#include <QMessageBox>
 
 #include "MainWindow.hpp"
 #include "InputMethodLoader.hpp"
@@ -162,6 +163,17 @@ QDir MainWindow::getUserDir()
 
 void MainWindow::closeEvent(QCloseEvent* e)
 {
+  if (this->_playing == true || this->_paused == true)
+    {
+      QMessageBox::StandardButton btn = QMessageBox::question(this, tr("Exit game?"), tr("A game is still in progress. Do you want to exit?"),
+                                                              QMessageBox::Yes | QMessageBox::No);
+      if (btn == QMessageBox::No)
+        {
+          e->ignore();
+          return;
+        }
+    }
+
   QDir userDir = this->getUserDir();
   if (userDir.exists() == false)
     {
