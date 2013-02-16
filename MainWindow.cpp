@@ -163,14 +163,21 @@ QDir MainWindow::getUserDir()
 
 void MainWindow::closeEvent(QCloseEvent* e)
 {
+  bool pauseState = this->_paused;
   if (this->_playing == true || this->_paused == true)
     {
+      this->_paused = true;
       QMessageBox::StandardButton btn = QMessageBox::question(this, tr("Exit game?"), tr("A game is still in progress. Do you want to exit?"),
                                                               QMessageBox::Yes | QMessageBox::No);
       if (btn == QMessageBox::No)
         {
           e->ignore();
+          this->_paused = pauseState;
           return;
+        }
+      else
+        {
+          this->endGame();
         }
     }
 
@@ -267,6 +274,21 @@ void MainWindow::timerEvent(QTimerEvent* ev)
       this->endGame_cleanup();
       return;
     }
+  
+  if (this->_paused == true)
+    {
+      int msecsDelta = this->_lastFrame.msecsTo(QTime::currentTime());
+      this->_lastFrame = QTime::currentTime();
+      if(this->_lastHitRecorded.isNull() == false)
+        {
+          this->_lastHitRecorded.addMSecs(msecsDelta);
+        }
+      if(this->_lastGenerated.isNull() == false)
+        {
+          this->_lastGenerated.addMSecs(msecsDelta);
+        }
+      return;
+    }
   // check if some blocks were shot down
   //qDebug("[Loop] Hit checker");
   for(int i = this->_charSprites.length() - 1; i >= 0; i--)
@@ -341,7 +363,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
 
 void MainWindow::keyPressEvent(QKeyEvent* e)
 {
-  if (this->_playing)
+  if (this->_playing == true && this->_paused == false)
     {
       int key = e->key();
       if (key == Qt::Key_Escape)
@@ -416,7 +438,6 @@ void MainWindow::setupMenubar()
   this->_aSettings = menu->addAction(tr("Settings"), this, SLOT(menuSettings()));
 
   this->setMenuAsStandingBy();
-  this->_aPauseGame->setVisible(false);
 }
 
 void MainWindow::setMenuAsStandingBy()
@@ -433,13 +454,22 @@ void MainWindow::setMenuAsPlaying()
   this->_aPauseGame->setDisabled(false);
   this->_aStopGame->setDisabled(false);
   this->_aNewGame->setEnabled(false);
-  this->_aExit->setEnabled(false);
+  this->_aExit->setEnabled(true);
   this->_aSettings->setEnabled(false);
 }
 
 void MainWindow::pause()
 {
   // the time control when pause should be considered carefully!
+  if(this->_paused == false)
+    {
+      this->_paused = true;
+      this->_im->clearStats();
+    }
+  else
+    {
+      this->_paused = false;
+    }
 }
 
 void MainWindow::menuPauseGame()
