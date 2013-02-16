@@ -35,7 +35,7 @@ void GameSettings::fillDefaultValue()
   this->_fontSize = QApplication::font().pointSizeF() * 2.0f;
   this->_windowWidth = 640;
   this->_windowHeight = 480;
-  this->_secsToGround = 4.0f;
+  this->_secsToGround = 6.0f;
   this->_shieldStrength = 5.0f;
   this->_shieldRegen = 0.01f;
   this->_playgroundColor = QColor(0, 0, 0);
