@@ -165,6 +165,7 @@ static QList<QStringList> loadIMListFile(QString dataDir, bool* error)
     }
   
   QTextStream s(&imListFile);
+  s.setCodec("UTF-8");
   int lineno = 0;
   while(s.atEnd() == false)
     {
@@ -262,6 +263,7 @@ InputMethod* InputMethod::loadInputMethodByName(QString dataDir, QString s)
             }
 
           QTextStream stream(&tableFile);
+          stream.setCodec("UTF-8");
           loader->loadData(stream);
           InputMethod* im = new InputMethod(*loader);
           tableFile.close();

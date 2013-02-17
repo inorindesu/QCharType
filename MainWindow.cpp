@@ -73,6 +73,7 @@ MainWindow::MainWindow()
       if(f->open(QIODevice::ReadOnly | QIODevice::Text))
         {
           QTextStream* s = new QTextStream(f);
+          s->setCodec("UTF-8");
           this->_settings->load(*s);
           f->close();
           delete s;
@@ -202,6 +203,7 @@ void MainWindow::closeEvent(QCloseEvent* e)
       return;
     }
   QTextStream s(&f);
+  s.setCodec("UTF-8");
   this->_settings->save(s);
   f.close();
 }
@@ -561,6 +563,7 @@ void MainWindow::enumAllTextDb()
       QFile f(fullFilePath);
       f.open(QIODevice::ReadOnly | QIODevice::Text);
       QTextStream stream(&f);
+      stream.setCodec("UTF-8");
       while(true)
         {
           QString line = stream.readLine();
@@ -605,6 +608,7 @@ void MainWindow::loadTextDb()
   f.open(QIODevice::Text | QIODevice::ReadOnly);
   bool gotHeaderLine = false;
   QTextStream stream(&f);
+  stream.setCodec("UTF-8");
   while(stream.atEnd() == false)
     {
       QString line = stream.readLine();
