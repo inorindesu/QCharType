@@ -30,6 +30,9 @@ int main(int argc, char** argv)
   
   QDir sharedDir = QDir(QCoreApplication::applicationDirPath());
   QString trDirPath = "../share/translations/";
+
+  qDebug() << "[main] Current locale" << QLocale::system().name();
+  
   if (sharedDir.exists(trDirPath) == false)
     {
       qWarning() << "[main] translation is missing.";
@@ -50,6 +53,7 @@ int main(int argc, char** argv)
             }
           else
             {
+              qDebug() << "[main] Translation loaded";
               app.installTranslator(&translator);
             }
         }
