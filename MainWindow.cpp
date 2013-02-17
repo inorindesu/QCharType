@@ -618,6 +618,9 @@ bool MainWindow::haveToGenerateBlock()
 {
   if (this->_lastGenerated.isNull())
     return true;
+
+  if (this->_charSprites.isEmpty())
+    return true;
   
   int msecs = this->_lastGenerated.msecsTo(QTime::currentTime());
   if (msecs >= this->_generationThreshold)
