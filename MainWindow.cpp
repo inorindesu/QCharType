@@ -373,7 +373,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
       double maxStrength =  this->_settings->shieldStrength();
       if (this->_shield > maxStrength)
         {
-          this->_shield>maxStrength;
+          this->_shield = maxStrength;
         }
     }
 
