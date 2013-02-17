@@ -45,16 +45,17 @@ int main(int argc, char** argv)
         }
       else
         {
-          QTranslator translator;
+          QTranslator* translator = new QTranslator();
+          qDebug() << "[main] share dir:" << sharedDir.absolutePath();
       
-          if (translator.load("tr_" + QLocale::system().name(), sharedDir.absolutePath()) == false)
+          if (translator->load("tr_" + QLocale::system().name(), sharedDir.absolutePath()) == false)
             {
               qWarning() << "[main] translation file cannot be loaded";
             }
           else
             {
               qDebug() << "[main] Translation loaded";
-              app.installTranslator(&translator);
+              QCoreApplication::installTranslator(translator);
             }
         }
     }

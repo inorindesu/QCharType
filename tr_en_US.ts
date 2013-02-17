@@ -24,9 +24,9 @@
         <translation>A game is still in progress. Do you want to exit?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="403"/>
-        <source>Shield: %1</source>
-        <translation>Shield: %1</translation>
+        <location filename="MainWindow.cpp" line="281"/>
+        <source>Game ended</source>
+        <translation>Game ended</translation>
     </message>
     <message>
         <location filename="MainWindow.cpp" line="281"/>
@@ -35,9 +35,9 @@
         <translation>Score: %1</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="281"/>
-        <source>Game ended</source>
-        <translation>Game ended</translation>
+        <location filename="MainWindow.cpp" line="403"/>
+        <source>Shield: %1</source>
+        <translation>Shield: %1</translation>
     </message>
     <message>
         <location filename="MainWindow.cpp" line="478"/>
