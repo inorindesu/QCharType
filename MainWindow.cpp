@@ -223,8 +223,10 @@ void MainWindow::startGame()
   this->_commitedChars = "";
   this->_shield = this->_settings->shieldStrength();
   this->_score = 0;
+  this->_totalHit = 0;
   this->_font = QFont(this->_settings->fontName(), this->_settings->fontSize());
   this->loadTextDb();
+  this->_generationThreshold = 5000; // 0.2 blocks / sec for block generation
   if (this->_textDb.isEmpty() == true)
     {
       qWarning() << "[MW] Warning: cannot load designated textDb. Game init aborted.";
@@ -241,7 +243,6 @@ void MainWindow::startGame()
   this->_playing = true;
   this->_paused = false;
   qsrand(QTime::currentTime().msecsTo(QTime(0, 0)));
-  this->_lastHitRecorded = QTime();
   this->_lastGenerated = QTime();
   this->_lastFrame = QTime::currentTime();
 }
@@ -289,10 +290,6 @@ void MainWindow::timerEvent(QTimerEvent* ev)
   if (this->_paused == true)
     {
       this->_lastFrame = QTime::currentTime();
-      if(this->_lastHitRecorded.isNull() == false)
-        {
-          this->_lastHitRecorded.addMSecs(msecsDelta);
-        }
       if(this->_lastGenerated.isNull() == false)
         {
           this->_lastGenerated.addMSecs(msecsDelta);
@@ -315,7 +312,16 @@ void MainWindow::timerEvent(QTimerEvent* ev)
           this->_charSprites.removeAt(i);
           delete block;
           this->_score += 1;
+          this->_totalHit += 1;
           qDebug() << "[LOOP] character shotdown. (" << charInBlock << ")";
+
+          // difficulty adjustment.
+          // make game more difficult when get 10 hits
+          if (this->_totalHit % 10 == 0)
+            {
+              this->_generationThreshold *= 0.95;
+              qDebug() << "[LOOP] difficulty adjustment: GT =" << this->_generationThreshold;
+            }
         }
     }
 
@@ -340,6 +346,11 @@ void MainWindow::timerEvent(QTimerEvent* ev)
           this->_charSprites.removeAt(i);
           delete block;
           this->_shield -= 1;
+          
+          // adjust difficulty when the player was hit
+          // make it easier..
+          this->_generationThreshold *= 1.025;
+          qDebug() << "[LOOP] difficulty adjustment: GT =" << this->_generationThreshold;
           
           if (this->_shield <= 0)
             {
@@ -609,7 +620,7 @@ bool MainWindow::haveToGenerateBlock()
     return true;
   
   int msecs = this->_lastGenerated.msecsTo(QTime::currentTime());
-  if (msecs >= 1000)
+  if (msecs >= this->_generationThreshold)
     return true;
   return false;
 }

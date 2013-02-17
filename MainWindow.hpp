@@ -62,16 +62,15 @@ private:
   QString _textDb;
   QHash<QString, QString> _textDbList; // name to path
   int _score;
+  int _totalHit;
   double _shield;
-  int _intervalHitCount;
-  int _generationSpeed;
   float _fallSpeed;
   QFont _font;
-  QTime _lastHitRecorded;
   QTime _lastGenerated;
   QTime _lastFrame;
   bool _showResult;
   int _lastRecharge;
+  int _generationThreshold;
   
   QDir getDataDir();
   QDir getUserDir();
