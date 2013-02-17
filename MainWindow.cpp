@@ -225,6 +225,11 @@ void MainWindow::startGame()
   this->_score = 0;
   this->_font = QFont(this->_settings->fontName(), this->_settings->fontSize());
   this->loadTextDb();
+  if (this->_textDb.isEmpty() == true)
+    {
+      qWarning() << "[MW] Warning: cannot load designated textDb. Game init aborted.";
+      return;
+    }
   this->_fallSpeed = this->_main->height() / this->_settings->secsToGround();
   this->_lastRecharge = 0;
   qDebug() << "[MW] falling speed is set to" << this->_fallSpeed;
