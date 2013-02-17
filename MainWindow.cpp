@@ -43,12 +43,17 @@ MainWindow::MainWindow()
   
   this->_lblInput = new QLabel(tr("Ready"));
   this->_lblInput->setAlignment(Qt::AlignLeft);
+  QFont f = this->font();
+  f.setPointSize(f.pointSize() * 2);
+  this->_lblInput->setFont(f);
   statusLayout->addWidget(this->_lblInput, 1);
+  statusLayout->addSpacing(10);
   this->_lblShield = new QLabel("");
-  this->_lblShield->setAlignment(Qt::AlignRight);
+  this->_lblShield->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
   statusLayout->addWidget(this->_lblShield);
+  statusLayout->addSpacing(10);
   this->_lblScore = new QLabel("");
-  this->_lblScore->setAlignment(Qt::AlignRight);
+  this->_lblScore->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
   statusLayout->addWidget(this->_lblScore);
 
   mainLayout->addLayout(statusLayout);
@@ -56,7 +61,7 @@ MainWindow::MainWindow()
   central->setLayout(mainLayout);
   this->setCentralWidget(central);
   this->setupMenubar();
-  this->resize(640, 480);
+  this->resize(800, 600);
 
   // game setup
   this->_settings = new GameSettings();
@@ -310,8 +315,8 @@ void MainWindow::timerEvent(QTimerEvent* ev)
         {
           this->_commitedChars.remove(idx, 1);
           this->_charSprites.removeAt(i);
+          this->_score += 10 * (1 - block->y() / this->_main->height());
           delete block;
-          this->_score += 1;
           this->_totalHit += 1;
           qDebug() << "[LOOP] character shotdown. (" << charInBlock << ")";
 
