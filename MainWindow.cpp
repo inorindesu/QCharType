@@ -302,7 +302,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
       return;
     }
   // check if some blocks were shot down
-  //qDebug("[Loop] Hit checker");
+  qDebug("[Loop] Hit checker");
   for(int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
       if (this->_playing == false)
@@ -325,7 +325,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
           if (this->_totalHit % 10 == 0)
             {
               this->_generationThreshold *= 0.95;
-              qDebug() << "[LOOP] difficulty adjustment: GT =" << this->_generationThreshold;
+              qDebug() << "[LOOP] difficulty adjustment (harder): GT =" << this->_generationThreshold;
             }
         }
     }
@@ -336,7 +336,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
       this->_commitedChars = QString("");
     }
 
-  //qDebug() << "[Loop] Block changer";
+  qDebug() << "[Loop] Block changer";
   float fallingDelta = this->_fallSpeed * msecsDelta / 1000.0f;
   for (int i = this->_charSprites.length() - 1; i >= 0; i--)
     {
@@ -355,7 +355,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
           // adjust difficulty when the player was hit
           // make it easier..
           this->_generationThreshold *= 1.025;
-          qDebug() << "[LOOP] difficulty adjustment: GT =" << this->_generationThreshold;
+          qDebug() << "[LOOP] difficulty adjustment (easier): GT =" << this->_generationThreshold;
           
           if (this->_shield <= 0)
             {
@@ -374,13 +374,14 @@ void MainWindow::timerEvent(QTimerEvent* ev)
     }
 
   // generate new blocks
-  //qDebug() << "[Loop] Block Generator";
+  qDebug() << "[Loop] Block Generator";
   if(this->haveToGenerateBlock())
     {
       this->_charSprites.prepend(generateCharBlock());
     }
 
   //shield recharge.
+  qDebug() << "[Loop] Recharge";
   this->_lastRecharge += msecsDelta;
   if (this->_lastRecharge > 1000)
     {
@@ -394,6 +395,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
     }
 
   // redraw
+  qDebug() << "[Loop] Graphical updating";
   this->_lblShield->setText(tr("Shield: %1").arg(this->_shield, 0, 'f', 1));
   this->_lblScore->setText(tr("Score: %1").arg(this->_score));
   this->_main->update();
