@@ -276,7 +276,9 @@ void MainWindow::endGame_cleanup()
   // show game result
   if(this->_showResult == true)
     {
+      QMessageBox::information(this, tr("Game ended"), tr("Score: %1").arg(this->_score));
     }
+  // save score
 }
 
 void MainWindow::timerEvent(QTimerEvent* ev)
