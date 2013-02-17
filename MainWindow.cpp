@@ -378,8 +378,8 @@ void MainWindow::timerEvent(QTimerEvent* ev)
     }
 
   // redraw
-  this->_lblShield->setText(QString::number(this->_shield, 'f', 1));
-  this->_lblScore->setText(QString::number(this->_score));
+  this->_lblShield->setText(tr("Shield: %1").arg(this->_shield, 0, 'f', 1));
+  this->_lblScore->setText(tr("Score: %1").arg(this->_score));
   this->_main->update();
   this->_lastFrame = QTime::currentTime();
 }
