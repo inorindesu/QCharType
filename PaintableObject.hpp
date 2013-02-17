@@ -52,6 +52,11 @@ public:
   {
     this->_y += delta;
   }
+  
+  void resizeY(float multiplier)
+  {
+    this->_y *= multiplier;
+  }
 
   void setX(float v)
   {

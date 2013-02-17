@@ -654,5 +654,14 @@ void MainWindow::resizeEvent(QResizeEvent* e)
   if(this->_playing)
     {
       this->_fallSpeed = this->_main->height() / this->_settings->secsToGround();
+      // adjust block locations
+      int yDelta = e->size().height() - e->oldSize().height();
+      int mainNewHeight = this->_main->height();
+      int mainOldHeight = mainNewHeight - yDelta;
+      float factor = (float)mainNewHeight / mainOldHeight;
+      for(int i = 0; i < this->_charSprites.length(); i++)
+        {
+          this->_charSprites.at(i)->resizeY(factor);
+        }
     }
 }
