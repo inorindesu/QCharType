@@ -1,0 +1,30 @@
+Introduction
+========
+
+QCharType is a chinese character typing game designed to be played
+without activating IME of user's operating system.
+
+Building
+========
+
+After this source tree is obtained, do as the following:
+
+  # Assume current dir is root of source tree
+  cd ..
+  mkdir build
+  qmake ../QCharType  # ./QCharType/ contains source tree
+  make
+  cp -r ../QCharType/share ./share
+
+If zh_TW translation is needed, run makeTranslation.sh in the source
+tree right after 'make' command.
+
+Running
+========
+
+After build as describe above, just type
+
+  ./QCharType
+
+in your build directory.
+
