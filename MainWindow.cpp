@@ -25,6 +25,7 @@
 #include <QtDebug>
 #include <QMessageBox>
 
+#include "ResultDialog.hpp"
 #include "MainWindow.hpp"
 #include "InputMethodLoader.hpp"
 
@@ -272,15 +273,15 @@ void MainWindow::endGame_cleanup()
       delete this->_charSprites.at(i);
     }
   this->_charSprites.clear();
-  //this->_charSprites.clear();
-  // reopen menuitems
-  this->setMenuAsStandingBy();
   // show game result
   if(this->_showResult == true)
     {
-      QMessageBox::information(this, tr("Game ended"), tr("Score: %1 (%2 characters)").arg(this->_score).arg(this->_totalHit));
+      ResultDialog::showResult(this->_score, this->_totalHit);
     }
   // save score
+
+  // reopen menuitems
+  this->setMenuAsStandingBy();
 }
 
 void MainWindow::timerEvent(QTimerEvent* ev)
