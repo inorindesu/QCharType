@@ -278,7 +278,7 @@ void MainWindow::endGame_cleanup()
   // show game result
   if(this->_showResult == true)
     {
-      QMessageBox::information(this, tr("Game ended"), tr("Score: %1").arg(this->_score));
+      QMessageBox::information(this, tr("Game ended"), tr("Score: %1 (%2 characters)").arg(this->_score).arg(this->_totalHit));
     }
   // save score
 }
@@ -401,7 +401,7 @@ void MainWindow::timerEvent(QTimerEvent* ev)
   // redraw
   qDebug() << "[Loop] Graphical updating";
   this->_lblShield->setText(tr("Shield: %1").arg(this->_shield, 0, 'f', 1));
-  this->_lblScore->setText(tr("Score: %1").arg(this->_score));
+  this->_lblScore->setText(tr("Score: %1 (%2 characters)").arg(this->_score).arg(this->_totalHit));
   this->_main->update();
   this->_lastFrame = QTime::currentTime();
 }

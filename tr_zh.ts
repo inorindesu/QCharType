@@ -30,15 +30,19 @@
         <translation>生命值：%1</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="281"/>
-        <location filename="MainWindow.cpp" line="404"/>
         <source>Score: %1</source>
-        <translation>得分：%1</translation>
+        <translation type="obsolete">得分：%1</translation>
     </message>
     <message>
         <location filename="MainWindow.cpp" line="281"/>
         <source>Game ended</source>
         <translation>遊戲結束</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="281"/>
+        <location filename="MainWindow.cpp" line="404"/>
+        <source>Score: %1 (%2 characters)</source>
+        <translation>得分：%1 (%2 個字)</translation>
     </message>
     <message>
         <location filename="MainWindow.cpp" line="478"/>

@@ -29,10 +29,14 @@
         <translation>Game ended</translation>
     </message>
     <message>
+        <source>Score: %1</source>
+        <translation type="obsolete">Score: %1</translation>
+    </message>
+    <message>
         <location filename="MainWindow.cpp" line="281"/>
         <location filename="MainWindow.cpp" line="404"/>
-        <source>Score: %1</source>
-        <translation>Score: %1</translation>
+        <source>Score: %1 (%2 characters)</source>
+        <translation>Score: %1 (%2 characters)</translation>
     </message>
     <message>
         <location filename="MainWindow.cpp" line="403"/>
