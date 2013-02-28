@@ -16,12 +16,16 @@
 // 
 
 #include <QDialog>
+#include <QPair>
+#include <QList>
+#include <QChar>
+#include <QString>
 
 class ResultDialog : public QDialog
 {
   Q_OBJECT
 private:
-  ResultDialog(int score, int charCount);  
+  ResultDialog(int score, int charCount, QList<QPair<QChar, QString> > missed);
 public:
-  static void showResult(int score, int charCount);
+  static void showResult(int score, int charCount, QList<QPair<QChar, QString> > missed);
 };

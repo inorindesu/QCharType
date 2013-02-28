@@ -65,6 +65,7 @@ public:
   //const QChar selectCharFromCandidates(int page, QChar key);
   const QChar selectCharFromCurrentPage(QChar key);
   const QString getCandidatesOfCurrentPage() const;
+  const QString getInputSequenceRepresentation(QChar ch) const;
 
   // check if candidate selection is available
   bool hasCharacter() const

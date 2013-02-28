@@ -276,7 +276,9 @@ void MainWindow::endGame_cleanup()
   // show game result
   if(this->_showResult == true)
     {
-      ResultDialog::showResult(this->_score, this->_totalHit);
+      qDebug() << "Missed: " << this->_missedCharacters.length();
+      ResultDialog::showResult(this->_score, this->_totalHit, this->_missedCharacters);
+      this->_missedCharacters.clear();
     }
   // save score
 
@@ -353,6 +355,10 @@ void MainWindow::timerEvent(QTimerEvent* ev)
       NormalCharBlock* block = this->_charSprites.at(i);
       if (block->y() + block->width() >= this->_main->height())
         {
+          QChar missedChar = block->character();
+          QString missedCharInputSeq = this->_im->getInputSequenceRepresentation(missedChar);
+          this->_missedCharacters.append(QPair<QChar, QString>(missedChar, missedCharInputSeq));
+          
           this->_charSprites.removeAt(i);
           delete block;
           this->_shield -= 1;

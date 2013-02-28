@@ -29,6 +29,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QTime>
+#include <QPair>
 
 #include "InputMethod.hpp"
 #include "PaintableWidget.hpp"
@@ -71,6 +72,7 @@ private:
   bool _showResult;
   int _lastRecharge;
   int _generationThreshold;
+  QList<QPair<QChar, QString> > _missedCharacters;
   
   QDir getDataDir();
   QDir getUserDir();

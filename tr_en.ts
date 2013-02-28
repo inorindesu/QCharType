@@ -24,7 +24,7 @@
         <translation>A game is still in progress. Do you want to exit?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="404"/>
+        <location filename="MainWindow.cpp" line="410"/>
         <source>Shield: %1</source>
         <translation>Shield: %1</translation>
     </message>
@@ -37,37 +37,37 @@
         <translation type="obsolete">Game ended</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="405"/>
+        <location filename="MainWindow.cpp" line="411"/>
         <source>Score: %1 (%2 characters)</source>
         <translation>Score: %1 (%2 characters)</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="479"/>
+        <location filename="MainWindow.cpp" line="485"/>
         <source>Game</source>
         <translation>Game</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="480"/>
+        <location filename="MainWindow.cpp" line="486"/>
         <source>New Game</source>
         <translation>New Game</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="481"/>
+        <location filename="MainWindow.cpp" line="487"/>
         <source>Stop Game</source>
         <translation>Stop Game</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="482"/>
+        <location filename="MainWindow.cpp" line="488"/>
         <source>Pause Game</source>
         <translation>Pause Game</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="483"/>
+        <location filename="MainWindow.cpp" line="489"/>
         <source>Exit</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="484"/>
+        <location filename="MainWindow.cpp" line="490"/>
         <source>Settings</source>
         <translation>Settings</translation>
     </message>
@@ -75,7 +75,7 @@
 <context>
     <name>ResultDialog</name>
     <message>
-        <location filename="ResultDialog.cpp" line="26"/>
+        <location filename="ResultDialog.cpp" line="27"/>
         <source>Game ended</source>
         <translation>Game ended</translation>
     </message>
@@ -90,7 +90,17 @@
         <translation>Score: %1</translation>
     </message>
     <message>
-        <location filename="ResultDialog.cpp" line="40"/>
+        <location filename="ResultDialog.cpp" line="42"/>
+        <source>Character</source>
+        <translation>Character</translation>
+    </message>
+    <message>
+        <location filename="ResultDialog.cpp" line="43"/>
+        <source>Input sequence</source>
+        <translation>Input sequence</translation>
+    </message>
+    <message>
+        <location filename="ResultDialog.cpp" line="57"/>
         <source>Close</source>
         <translation>Close</translation>
     </message>

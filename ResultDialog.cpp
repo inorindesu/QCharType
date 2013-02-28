@@ -20,8 +20,9 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QLabel>
+#include <QTableWidget>
 
-ResultDialog::ResultDialog(int score, int charCount)
+ResultDialog::ResultDialog(int score, int charCount, QList<QPair<QChar, QString> > missed)
 {
   this->setWindowTitle(tr("Game ended"));
   this->setModal(true);
@@ -34,6 +35,23 @@ ResultDialog::ResultDialog(int score, int charCount)
   QLabel* lblScore = new QLabel();
   lblScore->setText(tr("Score: %1").arg(score));
   mainLayout->addWidget(lblScore);
+
+  QTableWidget* table = new QTableWidget(missed.length(), 2, this);
+  table->setHorizontalHeaderLabels(
+                                   QStringList()
+                                   << tr("Character")
+                                   << tr("Input sequence")
+                                   );
+  
+  for(int i = 0; i < missed.length(); i++)
+    {
+      QPair<QChar, QString> item = missed.at(i);
+      QTableWidgetItem* charItem = new QTableWidgetItem(QString(item.first));
+      table->setItem(i, 0, charItem);
+      QTableWidgetItem* seqItem = new QTableWidgetItem(item.second);
+      table->setItem(i, 1, seqItem);
+    }
+  mainLayout->addWidget(table, 1);
   
   QHBoxLayout* closeButtonLayout = new QHBoxLayout();
   QPushButton* btnClose = new QPushButton(tr("Close"));
@@ -45,8 +63,8 @@ ResultDialog::ResultDialog(int score, int charCount)
   this->setLayout(mainLayout);
 }
 
-void ResultDialog::showResult(int score, int charCount)
+void ResultDialog::showResult(int score, int charCount, QList<QPair<QChar, QString> > missed)
 {
-  ResultDialog* di = new ResultDialog(score, charCount);
+  ResultDialog* di = new ResultDialog(score, charCount, missed);
   di->show();
 }

@@ -349,3 +349,39 @@ void InputMethod::processGrouping()
     }
   this->_inputBuffer = buf;
 }
+
+const QString InputMethod::getInputSequenceRepresentation(QChar ch) const
+{
+  QList<QString> keys = this->_charMap.keys();
+  QList<QString> values = this->_charMap.values();
+  // Get key representation of the character
+  QString representation;
+  for(int i = 0; i < values.length(); i++)
+    {
+      if (values.at(i).contains(ch))
+        {
+          representation = keys.at(i);
+        }
+    }
+  
+  if (representation.isNull()) 
+    {
+      // This character is not in this IM
+      // i.e. This IM is not capable of produce this character
+      qDebug() << "[IM] This IM is not capable of producing character" << ch;
+      return QString();
+    }
+  
+  // Transform ths key sequence into phoneic elements
+  QString ret = "";
+  for(int i = 0; i < representation.length(); i++)
+    {
+      QString ph = this->_elementMap.value(representation.at(i), QString());
+      if (ph.isNull())
+        {
+          qWarning() << "[IM] WARNING: cannot get phonetic representation of key" << representation.at(i);
+        }
+      ret.append(ph);
+    }
+  return ret;
+}
